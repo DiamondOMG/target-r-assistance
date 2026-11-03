@@ -164,12 +164,20 @@ class TargetRQuery:
         for item in filters or []:
             if not isinstance(item, dict) or item.get("field") not in allowed:
                 raise ValueError("INVALID_INPUT: filter contains unsupported field")
-            if item.get("operator") not in {"eq", "in", "contains", "exists"}:
+            operator = item.get("operator")
+            if operator not in {"eq", "in", "contains", "exists", "gt", "lt"}:
                 raise ValueError("INVALID_INPUT: unsupported filter operator")
-            if item["operator"] != "exists" and "value" not in item:
+            if operator != "exists" and "value" not in item:
                 raise ValueError("INVALID_INPUT: filter value is required")
-            if item["operator"] == "in" and not isinstance(item.get("value"), list):
+            if operator == "in" and not isinstance(item.get("value"), list):
                 raise ValueError("INVALID_INPUT: in operator requires an array value")
+            if operator in {"gt", "lt"}:
+                if item["field"] != "lastPlayerCommsMillis":
+                    raise ValueError("INVALID_INPUT: numeric comparisons are only allowed for lastPlayerCommsMillis")
+                try:
+                    float(item["value"])
+                except (TypeError, ValueError) as exc:
+                    raise ValueError("INVALID_INPUT: gt/lt requires a numeric value") from exc
 
     async def _get_rows(self, entity: Entity, freshness: Freshness) -> tuple[list[dict[str, Any]], str, str]:
         async with self._locks[entity]:
@@ -226,9 +234,15 @@ class TargetRQuery:
             elif operator == "eq":
                 matched = value is not None and str(value) == str(target)
             elif operator == "in":
-                if not isinstance(target, list):
-                    raise ValueError("INVALID_INPUT: in operator requires an array value")
                 matched = value is not None and str(value) in {str(candidate) for candidate in target}
+            elif operator in {"gt", "lt"}:
+                try:
+                    numeric_value = float(value)
+                    numeric_target = float(target)
+                except (TypeError, ValueError):
+                    matched = False
+                else:
+                    matched = numeric_value > numeric_target if operator == "gt" else numeric_value < numeric_target
             else:
                 matched = value is not None and str(target).casefold() in str(value).casefold()
             if not matched:

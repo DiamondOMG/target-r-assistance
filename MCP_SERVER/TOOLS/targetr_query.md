@@ -8,9 +8,9 @@
 
 ## คำอธิบายสำหรับ Model
 
-ใช้เมื่อต้อง query ข้อมูล Screen, Sequence หรือ Library item ที่มีในแหล่ง Target-R ที่เชื่อมต่อ เลือก operation และ fields ให้น้อยที่สุด จำกัดจำนวนแถว. Tool เป็น read-only; ไม่ใช้เพื่อส่งคำสั่งไปยัง DS Loader/Android device.
+ใช้เมื่อต้อง query ข้อมูล Screen, Sequence หรือ Library item ที่มีในแหล่ง Target-R ที่เชื่อมต่อ เลือก operation และ fields ให้น้อยที่สุด จำกัดจำนวนแถว. Query ไม่แก้ข้อมูลโดยตรง; `freshness="refresh"` จะเรียก sync/upsert ที่ตั้งค่าไว้. ไม่ใช้เพื่อส่งคำสั่งไปยัง DS Loader/Android device.
 
-## Input schema (draft)
+## Input schema
 
 | Field | Type | Required | ความหมาย / ข้อจำกัดที่เสนอ |
 |---|---|---:|---|
@@ -24,13 +24,13 @@
 
 Filter draft:
 
-| Field | Type | ความหมาย |
-|---|---|---|
-| `field` | string | canonical field ของ entity ตาม allowlist |
-| `operator` | string enum | เช่น `eq`, `in`, `contains`, `exists`; ต้องตกลงและทดสอบก่อนเปิดใช้ |
-| `value` | scalar หรือ array | ค่าที่ใช้เปรียบเทียบ; ห้ามรับ SQL, expression หรือ URL |
+| Field | Type | Required | ความหมาย / ข้อจำกัด |
+|---|---|---:|---|
+| `field` | string | yes | canonical field ของ entity ตาม allowlist |
+| `operator` | string enum | yes | `eq`, `in`, `contains`, `exists`; `gt`/`lt` เป็นการเทียบตัวเลข ใช้ได้เฉพาะ `lastPlayerCommsMillis` |
+| `value` | scalar หรือ array | conditional | ค่าที่ใช้เปรียบเทียบ; `in` ต้องเป็น array, `gt`/`lt` ต้องเป็นตัวเลข; ห้ามรับ SQL, expression หรือ URL |
 
-## Output schema (draft)
+## Output schema
 
 ```json
 {
@@ -50,7 +50,7 @@ Filter draft:
 - `select`: ส่ง `rows` ที่มีเฉพาะ fields ที่ร้องขอ พร้อม `total` และ `returned`
 - `group_count`: ส่ง `groups` ในรูป `{ "key": {...}, "count": number }`
 - Tool ต้องไม่คืนคอลัมน์ `data` (raw JSONB), credentials หรือผลลัพธ์เกิน `limit`
-- `as_of` ต้องแทนเวลาที่ source ยืนยันได้; ถ้าไม่มีข้อมูลเวลาที่น่าเชื่อถือให้เป็น `null` ห้ามอ้างเป็นเวลาข้อมูลสด
+- `as_of` คือเวลาที่ MCP ดึง dataset จาก Neon; เมื่อ `data_status="cached"` หมายถึงเวลาที่ dataset เข้า cache ไม่ใช่เวลาล่าสุดที่ Target-R ต้นทางเปลี่ยนข้อมูล
 - `warnings` ใช้แจ้งข้อมูลไม่ครบ, field ที่ไม่ทราบความหมาย หรือข้อจำกัดของ source
 
 ## Errors ที่ควรแยก
@@ -58,7 +58,7 @@ Filter draft:
 - `INVALID_INPUT`: entity/operation/filter/field ไม่อยู่ใน schema หรือ allowlist
 - `SOURCE_UNAVAILABLE`: ติดต่อ Neon ไม่ได้
 - `SOURCE_RESPONSE_INVALID`: response ไม่ตรง schema ที่คาด
-- `RESULT_LIMIT_EXCEEDED`: เงื่อนไขมีผลลัพธ์เกินขอบเขตที่อนุญาต (ถ้า implementation เลือก fail แทนการจำกัดผล)
+
 
 ห้ามใส่ secret, filter values อ่อนไหว หรือ raw response ใน error/log
 

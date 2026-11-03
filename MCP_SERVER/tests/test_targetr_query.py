@@ -70,6 +70,39 @@ def test_group_count_returns_aggregates() -> None:
     ]
 
 
+def test_timestamp_range_filters_exclude_zero_and_malformed_values() -> None:
+    query = make_query()
+
+    async def get_rows(entity: str, freshness: str):
+        return ([
+            {"screenId": "OLD", "lastPlayerCommsMillis": "1000"},
+            {"screenId": "NEW", "lastPlayerCommsMillis": "2500"},
+            {"screenId": "ZERO", "lastPlayerCommsMillis": "0"},
+            {"screenId": "BAD", "lastPlayerCommsMillis": "unknown"},
+            {"screenId": "MISSING", "lastPlayerCommsMillis": None},
+        ], "2026-01-01T00:00:00+00:00", "cached")
+
+    query._get_rows = get_rows  # type: ignore[method-assign]
+    result = asyncio.run(query.query(
+        entity="screen",
+        operation="select",
+        filters=[
+            {"field": "lastPlayerCommsMillis", "operator": "gt", "value": 0},
+            {"field": "lastPlayerCommsMillis", "operator": "lt", "value": 2000},
+        ],
+        fields=["screenId"],
+    ))
+    assert result["rows"] == [{"screenId": "OLD"}]
+
+
+def test_rejects_range_comparison_on_non_timestamp_fields() -> None:
+    with pytest.raises(ValueError, match="only allowed for lastPlayerCommsMillis"):
+        TargetRQuery._validate(
+            "screen", "select", [{"field": "storeCode", "operator": "gt", "value": 0}],
+            ["storeCode"], None, 20, 0, "cached"
+        )
+
+
 def test_rejects_unlisted_fields() -> None:
     with pytest.raises(ValueError, match="unsupported or duplicate"):
         TargetRQuery._validate("screen", "select", None, ["data"], None, 20, 0, "cached")

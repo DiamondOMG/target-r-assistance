@@ -24,8 +24,8 @@ class FilterInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     field: str = Field(description="Canonical field name allowed for the selected entity")
-    operator: Literal["eq", "in", "contains", "exists"] = Field(
-        description="Comparison operator; in requires an array value, exists checks for a non-null value"
+    operator: Literal["eq", "in", "contains", "exists", "gt", "lt"] = Field(
+        description="Comparison operator; in requires an array value, exists checks for a non-null value; gt/lt are numeric and only allowed for lastPlayerCommsMillis"
     )
     value: str | int | float | bool | list[str] | None = Field(
         default=None,
@@ -66,7 +66,7 @@ async def targetr_query(
 ) -> dict[str, Any]:
     """Query allowlisted fields. `select` requires `fields`; `group_count` requires `group_by`.
 
-    Filters are AND-combined objects. Keep store codes as strings to preserve leading zeroes.
+    Filters are AND-combined objects. gt/lt are numeric comparisons allowed only for lastPlayerCommsMillis. Keep store codes as strings to preserve leading zeroes.
     """
     client = get_query_client()
     filter_values = [item.model_dump(exclude_none=True) for item in filters] if filters else None

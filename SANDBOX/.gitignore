@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.py[cod]
+response.wav
+skill_tool_response.wav
