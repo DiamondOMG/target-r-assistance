@@ -29,6 +29,7 @@
 - [x] เก็บ credentials ใน environment; ไม่ log credential หรือ raw response
 - [x] เพิ่ม tests สำหรับ validation, filtering, projection และ group count
 - [x] อัปเดตรายการ tools ใน `MCP_SERVER/index.md`
+- [x] เพิ่ม Tool Contract `geo_distance` ใน `MCP_SERVER/TOOLS/geo_distance.md` และ Skill `SKILLS/screen_location.md` สำหรับค้นหาตำแหน่งใกล้เคียง
 
 ### 4. ทดลองกับ Agent Host
 

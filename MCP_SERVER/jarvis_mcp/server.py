@@ -6,11 +6,13 @@ from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field
 
+from jarvis_mcp.targetr_function import TargetRFunction
 from jarvis_mcp.targetr_query import TargetRQuery
 
 load_dotenv()
 
 _query_client: TargetRQuery | None = None
+_function_client: TargetRFunction | None = None
 
 
 def get_query_client() -> TargetRQuery:
@@ -18,6 +20,36 @@ def get_query_client() -> TargetRQuery:
     if _query_client is None:
         _query_client = TargetRQuery.from_env()
     return _query_client
+
+
+def get_function_client() -> TargetRFunction:
+    global _function_client
+    if _function_client is None:
+        _function_client = TargetRFunction.from_env()
+    return _function_client
+
+
+class FunctionFilterInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    field: str
+    operator: Literal["eq", "ne", "contains", "in", "exists", "gt", "gte", "lt", "lte"]
+    value: str | int | float | bool | list[str] | None = None
+
+
+class SortInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    field: str
+    direction: Literal["asc", "desc"] = "asc"
+
+
+class AggregateInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    operation: Literal["count", "sum", "avg", "min", "max", "group_count"]
+    field: str | None = None
+    group_by: str | None = None
 
 
 class FilterInput(BaseModel):
@@ -79,6 +111,35 @@ async def targetr_query(
         limit=limit,
         offset=offset,
         freshness=freshness,
+    )
+
+
+@mcp.tool(
+    name="targetr_function",
+    description=(
+        "Filter, project, sort, aggregate or page through raw Target-R JSON rows fetched from Neon. "
+        "By default exports every matching row and all source fields to a CSV file on the MCP host; returns the file path, not the dataset. "
+        "Set limit only when a partial result is wanted. Raw JSON cells are serialized into CSV. Does not execute arbitrary code."
+    ),
+)
+async def targetr_function(
+    table: Literal["screen", "sequence", "libraryitem"],
+    filters: Annotated[list[FunctionFilterInput] | None, Field(description="AND-combined field-path filters")]=None,
+    fields: Annotated[list[str] | None, Field(description="Optional dot-path projection; omit to export every top-level source field")]=None,
+    sort: Annotated[list[SortInput] | None, Field(description="Optional ordered sort keys")]=None,
+    aggregate: Annotated[AggregateInput | None, Field(description="Optional aggregation; when set, rows are not returned")]=None,
+    limit: int | None = None,
+    offset: int = 0,
+) -> dict[str, Any]:
+    """Process Neon raw JSON internally and export the complete matched dataset as CSV by default."""
+    return await get_function_client().run(
+        table=table,
+        filters=[item.model_dump(exclude_unset=True) for item in filters] if filters else None,
+        fields=fields,
+        sort=[item.model_dump() for item in sort] if sort else None,
+        aggregate=aggregate.model_dump(exclude_none=True) if aggregate else None,
+        limit=limit,
+        offset=offset,
     )
 
 

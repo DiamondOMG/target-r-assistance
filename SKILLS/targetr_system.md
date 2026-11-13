@@ -14,12 +14,13 @@
 
 1. แยกก่อนว่าคำถามต้องการ **ความรู้จากเอกสาร**, **ข้อมูลสด/ข้อมูลที่ sync ไว้**, หรือทั้งสองอย่าง
 2. คำถามเชิงความหมายหรือวิธีทำงาน ให้ใช้เอกสาร Target-R/DS Loader ที่ลงทะเบียนไว้ หากไม่มีเอกสารหรือ tool สำหรับ DS Loader ให้แจ้งข้อจำกัด ห้ามเดา
-3. คำถามเกี่ยวกับข้อมูล Screen, Sequence หรือ Library item ให้ใช้ MCP tool `targetr_query` ตาม contract ใน `MCP_SERVER/TOOLS/targetr_query.md`
-4. ใช้ `freshness="cached"` โดยปริยาย; เมื่อผู้ใช้ถามข้อมูลล่าสุด, เวลาที่เปลี่ยนแปลงได้ หรือระบุให้ refresh ให้ใช้ `freshness="refresh"` เพื่อ sync entity นั้นกับ Target-R ก่อนอ่าน (การ refresh ทำให้เกิด sync/upsert ลง Neon)
-5. เลือก operation ที่คืนข้อมูลน้อยที่สุด: `count` หรือ `group_count` ก่อน `select`; เลือกเฉพาะ fields ที่จำเป็น และจำกัดจำนวนผลลัพธ์
-6. ตอบจากผลลัพธ์ tool พร้อมระบุแหล่งและเวลาที่ดึงข้อมูลเมื่อมีให้ หากไม่มีข้อมูลหรือข้อมูลเก่า ให้บอกตรง ๆ
-7. หากผู้ใช้ถามว่า Screen ใด offline ให้ใช้กฎเฉพาะ Jarvis ในหัวข้อ “เกณฑ์ offline” และ refresh ข้อมูลก่อนคำนวณ
-8. หากคำถามถามว่าอุปกรณ์เล่นสื่อจริงหรือไม่ ห้ามสรุปจาก Sequence หรือเวลา Player ติดต่อเพียงอย่างเดียว ต้องมี Display report ที่ตรงช่วงเวลา
+3. คำถามทั่วไปเกี่ยวกับข้อมูล Screen, Sequence หรือ Library item ให้ใช้ MCP tool `targetr_query` ตาม contract ใน `MCP_SERVER/TOOLS/targetr_query.md`
+3. ใช้ `targetr_function` ตาม `MCP_SERVER/TOOLS/targetr_function.md` เมื่อต้องประมวลผล nested/raw JSON ใน Neon ที่ `targetr_query` ไม่รองรับและต้องการไฟล์ CSV; tool ประมวลผล raw ภายใน MCP แล้วคืน path ของไฟล์ ไม่ส่ง dataset ทั้งก้อนใน tool response. ระบุ filter/fields เท่าที่ต้องการ; ถ้าผู้ใช้ต้องการ raw ครบ ให้ละ fields เพื่อ export ทุก column
+5. ใช้ `freshness="cached"` โดยปริยาย; เมื่อผู้ใช้ถามข้อมูลล่าสุด, เวลาที่เปลี่ยนแปลงได้ หรือระบุให้ refresh ให้ใช้ `freshness="refresh"` เพื่อ sync entity นั้นกับ Target-R ก่อนอ่าน (การ refresh ทำให้เกิด sync/upsert ลง Neon)
+6. เลือก operation ที่คืนข้อมูลน้อยที่สุด: `count` หรือ `group_count` ก่อน `select`; เลือกเฉพาะ fields ที่จำเป็น และจำกัดจำนวนผลลัพธ์
+7. ตอบจากผลลัพธ์ tool พร้อมระบุแหล่งและเวลาที่ดึงข้อมูลเมื่อมีให้ หากไม่มีข้อมูลหรือข้อมูลเก่า ให้บอกตรง ๆ
+8. หากผู้ใช้ถามว่า Screen ใด offline ให้ใช้กฎเฉพาะ Jarvis ในหัวข้อ “เกณฑ์ offline” และ refresh ข้อมูลก่อนคำนวณ
+9. หากคำถามถามว่าอุปกรณ์เล่นสื่อจริงหรือไม่ ห้ามสรุปจาก Sequence หรือเวลา Player ติดต่อเพียงอย่างเดียว ต้องมี Display report ที่ตรงช่วงเวลา
 
 ## การตีความที่ยืนยันจากเอกสาร
 
@@ -52,7 +53,7 @@
 ## ข้อห้าม
 
 - ห้ามเรียก API โดยตรงจาก Model/Agent และห้ามสร้าง URL หรือ method เอง
-- ห้ามส่ง credentials หรือ raw JSON object ให้ Model
+- ห้ามส่ง credentials หรือ raw JSON object ทั้งก้อนให้ Model; `targetr_function` ใช้ raw ได้เฉพาะประมวลผลภายใน MCP และคืนผลที่จำกัดแล้วเท่านั้น
 - ห้ามเปิดเผย MAC/Screen ID, พิกัด, resource URL หรือข้อมูลลูกค้า หากไม่จำเป็นและไม่ได้รับอนุญาต
 - ห้ามอนุมาน proof of play หรือความหมายของ field ที่เอกสารยังไม่ยืนยัน; กฎ offline 1 ชั่วโมงด้านล่างเป็นเกณฑ์ปฏิบัติการที่ Jarvis ใช้ตามที่เจ้าของระบบกำหนด ไม่ใช่สถานะที่ Target-R รับรอง
 - ห้ามสั่งแก้ข้อมูล, remote trigger หรือเปลี่ยนค่าบนอุปกรณ์; `freshness="refresh"` อนุญาตเฉพาะ sync/upsert ข้อมูลจาก Target-R เข้า Neon ตาม workflow ที่มีอยู่แล้ว

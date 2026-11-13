@@ -6,7 +6,8 @@ Skill คือคำแนะนำเฉพาะงานที่ช่ว�
 
 | Skill | ใช้เมื่อ | ไฟล์ |
 |---|---|---|
-| Target-R และ DS Loader | ถามความรู้หรือข้อมูล read-only เกี่ยวกับ Target-R/DS Loader | [`targetr_system.md`](targetr_system.md)
+| Target-R และ DS Loader | ถามความรู้หรือข้อมูล read-only เกี่ยวกับ Target-R/DS Loader | [`targetr_system.md`](targetr_system.md) |
+| ค้นหาจอและสถานที่ใกล้เคียง | ค้นหาจอ ห้าง หรือสาขาที่อยู่ใกล้จุดอ้างอิงผ่านพิกัดภูมิศาสตร์ | [`screen_location.md`](screen_location.md) |
 
 ## แนวทางเพิ่ม Skill
 
