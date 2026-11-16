@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import os
 from typing import Annotated, Any, Literal
 
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field
 
+from jarvis_mcp.fuzzy_search import targetr_fuzzy_search as run_fuzzy_search
+from jarvis_mcp.geo_distance import geo_distance as run_geo_distance
 from jarvis_mcp.targetr_function import TargetRFunction
 from jarvis_mcp.targetr_query import TargetRQuery
 
@@ -27,6 +30,23 @@ def get_function_client() -> TargetRFunction:
     if _function_client is None:
         _function_client = TargetRFunction.from_env()
     return _function_client
+
+
+class OriginInput(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    latitude: float = Field(description="Latitude in degrees (-90.0 to 90.0)")
+    longitude: float = Field(description="Longitude in degrees (-180.0 to 180.0)")
+
+
+class DestinationInput(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    id: str = Field(default="", description="Identifier of the screen or location")
+    label: str | None = Field(default=None, description="Display label")
+    storeLocation: str | None = Field(default=None, description="Store location name")
+    latitude: float = Field(description="Latitude coordinate")
+    longitude: float = Field(description="Longitude coordinate")
 
 
 class FunctionFilterInput(BaseModel):
@@ -140,6 +160,60 @@ async def targetr_function(
         aggregate=aggregate.model_dump(exclude_none=True) if aggregate else None,
         limit=limit,
         offset=offset,
+    )
+
+
+@mcp.tool(
+    name="geo_distance",
+    description=(
+        "Calculate geographic distance (Haversine formula) from an origin coordinate to multiple target destinations. "
+        "Filters by maximum distance (radius) and returns the closest locations sorted from nearest to furthest. "
+        "Never returns raw coordinates unnecessarily."
+    ),
+)
+async def geo_distance_tool(
+    origin: OriginInput,
+    destinations: Annotated[list[DestinationInput], Field(description="List of target destinations with coordinates")],
+    max_distance_km: Annotated[float | None, Field(description="Max search radius in km")]=None,
+    limit: Annotated[int, Field(description="Max results to return (default 5, max 20)")]=5,
+    unit: Literal["km", "m"] = "km",
+) -> dict[str, Any]:
+    """Calculate distance and rank nearby locations."""
+    origin_dict = origin.model_dump()
+    dest_dicts = [d.model_dump() for d in destinations]
+    return run_geo_distance(
+        origin=origin_dict,
+        destinations=dest_dicts,
+        max_distance_km=max_distance_km,
+        limit=limit,
+        unit=unit,
+    )
+
+
+@mcp.tool(
+    name="targetr_fuzzy_search",
+    description=(
+        "Search for store locations, projects, or screen label types using fuzzy matching and alias lookup. "
+        "Handles typos, Thai misspellings, colloquial names, and abbreviations (e.g. 'CTW', 'เซลทรัลเวิล', 'ลาดพราว'). "
+        "Queries the Master Knowledge base and returns canonical storeLocation and storeCode for subsequent queries."
+    ),
+)
+async def targetr_fuzzy_search_tool(
+    query: Annotated[str, Field(description="Search text, e.g. 'เซลทรัลเวิล', 'CTW', 'บางพลี', 'ลาดพร้าว'")],
+    entity_type: Literal["location", "project", "label"] = "location",
+    threshold: Annotated[float, Field(description="Similarity threshold from 0.0 to 1.0")]=0.6,
+    limit: Annotated[int, Field(description="Max results to return (default 5, max 20)")]=5,
+) -> dict[str, Any]:
+    """Fuzzy search across Master Knowledge base."""
+    key_file = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "target-r-assistance-5f4d3703fed8.json")
+    spreadsheet_id = os.getenv("TARGETR_SPREADSHEET_ID", "1K0hWy-Mgl52a7TR6Rzy8XvsGSjl7kwNmsm5sxqRpJoE")
+    return run_fuzzy_search(
+        query=query,
+        entity_type=entity_type,
+        threshold=threshold,
+        limit=limit,
+        key_file=key_file,
+        spreadsheet_id=spreadsheet_id,
     )
 
 

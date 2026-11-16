@@ -30,6 +30,8 @@
 - [x] เพิ่ม tests สำหรับ validation, filtering, projection และ group count
 - [x] อัปเดตรายการ tools ใน `MCP_SERVER/index.md`
 - [x] เพิ่ม Tool Contract `geo_distance` ใน `MCP_SERVER/TOOLS/geo_distance.md` และ Skill `SKILLS/screen_location.md` สำหรับค้นหาตำแหน่งใกล้เคียง
+- [x] พัฒนา Tool `targetr_fuzzy_search` ใน `MCP_SERVER/jarvis_mcp/fuzzy_search.py` ดึงข้อมูลจาก Google Sheet และเพิ่ม tests ครบถ้วน
+- [x] รวมและลงทะเบียน MCP Tools ทั้งหมด 4 ตัวใน `MCP_SERVER/jarvis_mcp/server.py` พร้อมรัน pytest ผ่าน 100% (20 tests passed)
 
 ### 4. ทดลองกับ Agent Host
 

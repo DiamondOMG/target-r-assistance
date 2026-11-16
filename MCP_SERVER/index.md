@@ -13,6 +13,7 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 | `targetr_query` | Query Screen, Sequence หรือ Library item; DS Loader เป็นคำเรียกที่ผู้ใช้อาจใช้แทน Target-R | entity, operation; filters/fields/group_by ตาม operation; freshness เลือก cached หรือ refresh | count, selected rows หรือ grouped counts แบบจำกัด; ไม่มี raw `data` | [`TOOLS/targetr_query.md`](TOOLS/targetr_query.md) |
 | `targetr_function` | ประมวลผล raw JSON ใน Neon แล้ว export CSV ทั้งชุดที่ตรงเงื่อนไข | table; filter/fields/sort/aggregate/limit/offset optional | local CSV file path กับจำนวนแถว; dataset ไม่ถูกส่งใน tool response | [`TOOLS/targetr_function.md`](TOOLS/targetr_function.md) |
 | `geo_distance` | คำนวณระยะทางและจัดอันดับสถานที่ใกล้เคียงจากพิกัด lat/long | origin, destinations; max_distance_km, limit, unit optional | รายการสถานที่ใกล้เคียงเรียงตามระยะทาง; ไม่คืน raw coordinates ซ้ำ | [`TOOLS/geo_distance.md`](TOOLS/geo_distance.md) |
+| `targetr_fuzzy_search` | ค้นหาชื่อสาขา ห้าง โครงการ หรือประเภทจอแบบยืดหยุ่น ดักคำสะกดผิด/คำย่อ | query; entity_type, threshold, limit optional | รายการชื่อ canonical พร้อมคะแนนความมั่นใจและ matched field | [`TOOLS/fuzzy_search.md`](TOOLS/fuzzy_search.md) |
 
 ## ข้อกำหนดสำหรับ tools
 
