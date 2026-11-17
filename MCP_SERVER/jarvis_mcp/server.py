@@ -19,6 +19,10 @@ from jarvis_mcp.programmatic_helper import (
 from jarvis_mcp.stuck_screens import find_stuck_screens as run_find_stuck_screens
 from jarvis_mcp.targetr_function import TargetRFunction
 from jarvis_mcp.targetr_query import TargetRQuery
+from jarvis_mcp.team_knowledge import (
+    team_knowledge_save as run_team_knowledge_save,
+    team_knowledge_search as run_team_knowledge_search,
+)
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 load_dotenv()
@@ -341,6 +345,73 @@ async def targetr_stuck_screens_tool(
         store_query=store_query,
         limit=limit,
         freshness=freshness,
+    )
+
+
+@mcp.tool(
+    name="team_knowledge_search",
+    description=(
+        "Search the shared real-time Team Knowledge Base stored on Google Sheet (Jarvis_TargetR_Master -> Team_Knowledge tab) "
+        "and files in the shared Google Drive folder (Editor). Available immediately to all team members without waiting for git push."
+    ),
+)
+async def team_knowledge_search_tool(
+    query: Annotated[
+        str,
+        Field(description="Search keywords (matches title, tags, category, content, or Drive file name). Leave empty to list recent notes."),
+    ] = "",
+    category: Annotated[
+        str | None,
+        Field(description="Optional category filter, e.g. 'troubleshooting', 'sop', 'hardware', 'general'"),
+    ] = None,
+    limit: Annotated[
+        int,
+        Field(description="Max entries to return (1-50, default 10)"),
+    ] = 10,
+) -> dict[str, Any]:
+    """Search shared team knowledge notes and Drive documents."""
+    return run_team_knowledge_search(
+        query=query,
+        category=category,
+        limit=limit,
+    )
+
+
+@mcp.tool(
+    name="team_knowledge_save",
+    description=(
+        "Save or update a shared knowledge note directly to the central Team_Knowledge tab on Google Sheet (Jarvis_TargetR_Master). "
+        "Allows both admin and staff to record solutions, SOPs, or field notes that become immediately visible to the whole team."
+    ),
+)
+async def team_knowledge_save_tool(
+    title: Annotated[str, Field(description="Clear title of the knowledge note")],
+    content: Annotated[str, Field(description="Detailed symptom, cause, solution, or SOP content")],
+    category: Annotated[
+        str,
+        Field(description="Category such as 'troubleshooting', 'sop', 'hardware', 'targetr', or 'general'"),
+    ] = "general",
+    tags: Annotated[
+        str,
+        Field(description="Comma-separated search tags, e.g. 'ติดใบ้,จอดำ,android-player'"),
+    ] = "",
+    updated_by: Annotated[
+        str,
+        Field(description="Name or role of the team member saving the note"),
+    ] = "team",
+    topic_id: Annotated[
+        str | None,
+        Field(description="Optional existing topic_id (e.g. 'KB-001') to update a specific row"),
+    ] = None,
+) -> dict[str, Any]:
+    """Save or update a note in the shared Team_Knowledge Google Sheet tab."""
+    return run_team_knowledge_save(
+        title=title,
+        content=content,
+        category=category,
+        tags=tags,
+        updated_by=updated_by,
+        topic_id=topic_id,
     )
 
 

@@ -17,6 +17,8 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 | `send_email` | ส่งอีเมลแจ้งเตือน รายงาน หรือ Alerts ผ่าน Gmail SMTP | to, subject, body; is_html, cc optional | ผลลัพธ์สถานะการส่ง (success), timestamp, รายชื่อผู้รับ | [`TOOLS/send_email.md`](TOOLS/send_email.md) |
 | `prepare_targetr_update` | สร้างข้อมูล TSV/JSON และบันทึกไฟล์ลง `SANDBOX/` เพื่อให้ผู้ใช้นำไปวางอัปเดตข้อมูลหลายรายการพร้อมกันในเครื่องมือ `manage_target_r` | mode, rows; target_id, filename_prefix optional | ข้อความ TSV/JSON พร้อมก๊อปปี้, path ไฟล์ที่บันทึก, ลิงก์เครื่องมือ และขั้นตอนการใช้งาน | [`TOOLS/prepare_targetr_update.md`](TOOLS/prepare_targetr_update.md) |
 | `targetr_stuck_screens` | ค้นหาจอที่ติดใบ้ (`Player comms problem` — Loader ออนไลน์แต่ Player ค้างจอดำ) | min_stuck_minutes, loader_online_window_minutes, retailer, store_query, limit, freshness optional | รายการจอติดใบ้เรียงตามเวลาที่ค้าง + path ไฟล์ CSV ใน `SANDBOX/` | [`TOOLS/targetr_stuck_screens.md`](TOOLS/targetr_stuck_screens.md) |
+| `team_knowledge_search` | ค้นหาคลังความรู้ส่วนกลางของทีมแบบ Real-time จากแท็บ `Team_Knowledge` และโฟลเดอร์ Drive `Editor` | query, category, limit optional | รายการโน้ตความรู้ของทีมและไฟล์จาก Drive | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
+| `team_knowledge_save` | บันทึก/อัปเดตความรู้ใหม่เข้าคลังส่วนกลางของทีม (ใช้ร่วมกันได้ทุกคนทันทีโดยไม่ต้องรอ `git push`) | title, content; category, tags, updated_by, topic_id optional | สถานะบันทึก (`created`/`updated`), `topic_id` และลิงก์ชีต | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
 
 ## ข้อกำหนดสำหรับ tools
 

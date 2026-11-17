@@ -19,6 +19,7 @@
 | **`Location`** | จับคู่ชื่อสาขาภาษาอังกฤษ-ไทย, คำย่อ, รหัส | `store_location`, `thai_name`, `aliases`, `retailer`, `store_code`, `notes` | `store_location` $\leftrightarrow$ `Screen.storeLocation`<br/>`store_code` $\leftrightarrow$ `Screen.storeCode, STC` |
 | **`Projects`** | ข้อมูลโครงการและแบรนด์ค้าปลีก | `project_name`, `retailer`, `thai_name`, `aliases`, `notes` | `project_name` $\leftrightarrow$ `Screen.ProjectName` |
 | **`Labels`** | ประเภทและโซนการติดตั้งจอ | `label_type`, `zone`, `thai_name`, `aliases`, `notes` | `label_type` $\leftrightarrow$ `Screen.signageType` |
+| **`Team_Knowledge`** | คลังความรู้ส่วนกลางของทีม (Real-time Knowledge Base) | `topic_id`, `title`, `category`, `tags`, `content`, `updated_by`, `updated_at` | จัดการผ่าน `team_knowledge_search` / `team_knowledge_save` |
 
 ---
 

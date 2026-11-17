@@ -10,6 +10,7 @@ Skill คือคำแนะนำเฉพาะงานที่ช่ว�
 | ค้นหาจอและสถานที่ใกล้เคียง | ค้นหาจอ ห้าง หรือสาขาที่อยู่ใกล้จุดอ้างอิงผ่านพิกัดภูมิศาสตร์ | [`screen_location.md`](screen_location.md) |
 | จัดเตรียมข้อมูลสำหรับ Manage Target-R | สร้างข้อมูล/ไฟล์ (TSV/JSON) พร้อมก๊อปปี้ไปวางอัปเดตฟิลด์หน้าจอหรือ Sequence หลายรายการพร้อมกันที่ `https://tops.actx.digital/manage_target_r` | [`manage_target_r.md`](manage_target_r.md) |
 | คู่มือระบบและเครื่องมือ Act-X Programmatic CMS | แนะนำเครื่องมือ ลิงก์หน้าเว็บ และเตรียมข้อมูลให้ผู้ใช้ไปดำเนินการต่อบนระบบ `https://tops.actx.digital` (ครบทั้ง 15+ หน้า/เครื่องมือ) | [`programmatic_cms_guide.md`](programmatic_cms_guide.md) |
+| คลังความรู้ส่วนกลางของทีม | จดบันทึกหรือค้นหาวิธีแก้ปัญหาหน้างาน/SOP ร่วมกันทั้งทีมแบบ Real-time โดยไม่ต้องรอ `git push` | [`team_knowledge.md`](team_knowledge.md) |
 
 ## แนวทางเพิ่ม Skill
 
