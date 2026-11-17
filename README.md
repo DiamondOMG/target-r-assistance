@@ -28,7 +28,7 @@
 ### 2. ดาวน์โหลดโปรเจกต์และวางไฟล์ลับจากหัวหน้าทีม
 1. เปิดโฟลเดอร์ที่ต้องการเก็บงาน (เช่น `C:\OMG`) แล้ว Clone โปรเจกต์:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/DiamondOMG/target-r-assistance.git
    ```
 2. นำไฟล์ 2 อย่างที่หัวหน้าทีมส่งให้ (ห้ามส่งต่อหรือ commit ขึ้น Git) มาวางที่โฟลเดอร์ `target-r-assistance\`:
    - ไฟล์ **`.env`** (ต้องมี `PERMISSION=staff` เพื่อป้องกันเผลอแก้โค้ดและเปิดระบบ Auto-Update)
