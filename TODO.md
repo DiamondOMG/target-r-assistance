@@ -32,6 +32,8 @@
 - [x] เพิ่ม Tool Contract `geo_distance` ใน `MCP_SERVER/TOOLS/geo_distance.md` และ Skill `SKILLS/screen_location.md` สำหรับค้นหาตำแหน่งใกล้เคียง
 - [x] พัฒนา Tool `targetr_fuzzy_search` ใน `MCP_SERVER/jarvis_mcp/fuzzy_search.py` ดึงข้อมูลจาก Google Sheet และเพิ่ม tests ครบถ้วน
 - [x] รวมและลงทะเบียน MCP Tools ทั้งหมด 4 ตัวใน `MCP_SERVER/jarvis_mcp/server.py` พร้อมรัน pytest ผ่าน 100% (20 tests passed)
+- [x] จัดทำ Data Catalog ของ Google Sheets ใน `SHEETS_INDEX.md` รองรับ `Jarvis_TargetR_Master` และ `Tops Monitor` (Floor Plan Mapping)
+- [x] พัฒนา Tool `send_email` ใน `MCP_SERVER/jarvis_mcp/email_sender.py` ผ่าน Gmail SMTP พร้อมบันทึก App Password ลงถังและเทสผ่าน 100%
 
 ### 4. ทดลองกับ Agent Host
 
@@ -45,7 +47,10 @@
 
 - [ ] ประเมินการเชื่อมต่อจากระบบอื่นผ่าน API หรือ channel ที่ต้องการ
 - [ ] ประเมินช่องทางเสียง เช่น microphone และ speaker
-- [ ] ประเมินการแสดงผลบนทีวี
+- [ ] พัฒนา MCP ควบคุม Sharp Smart TV / Android TV ผ่าน ADB over Tailscale (งานพรุ่งนี้):
+  - [ ] ติดตั้งและตั้งค่าการเชื่อมต่อเน็ตเวิร์ก (Tailscale on TV / Subnet Router)
+  - [ ] พัฒนาคำสั่งควบคุม: เปิด/ปิดจอ, สั่งเปิดแอป (Launch App), สั่งเปิดลิงก์เว็บ (Open URL)
+  - [ ] ออกแบบ Tool Contract และสร้าง MCP Tool `tv_control` สำหรับให้ Jarvis สั่งการทีวีข้ามวงแลน
 - [ ] ออกแบบ memory หลังจากยืนยันรูปแบบการใช้งานและ Host แล้ว
 
 ## หลักการตัดสินใจ

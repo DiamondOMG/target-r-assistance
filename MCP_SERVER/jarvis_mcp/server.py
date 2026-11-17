@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, ConfigDict, Field
 
+from jarvis_mcp.email_sender import send_email as run_send_email
 from jarvis_mcp.fuzzy_search import targetr_fuzzy_search as run_fuzzy_search
 from jarvis_mcp.geo_distance import geo_distance as run_geo_distance
 from jarvis_mcp.targetr_function import TargetRFunction
@@ -214,6 +215,30 @@ async def targetr_fuzzy_search_tool(
         limit=limit,
         key_file=key_file,
         spreadsheet_id=spreadsheet_id,
+    )
+
+
+@mcp.tool(
+    name="send_email",
+    description=(
+        "Send an email notification, report, or alert via Gmail SMTP. "
+        "Supports plain text or HTML body, multiple recipients, and CC."
+    ),
+)
+async def send_email_tool(
+    to: Annotated[list[str], Field(description="List of recipient email addresses (e.g. ['manager@example.com'])")],
+    subject: Annotated[str, Field(description="Subject line of the email")],
+    body: Annotated[str, Field(description="Body content of the email (plain text or HTML)")],
+    is_html: Annotated[bool, Field(description="Set true if body is HTML formatted (default false)")]=False,
+    cc: Annotated[list[str] | None, Field(description="Optional list of CC email addresses")]=None,
+) -> dict[str, Any]:
+    """Send an email via configured Gmail account."""
+    return run_send_email(
+        to=to,
+        subject=subject,
+        body=body,
+        is_html=is_html,
+        cc=cc,
     )
 
 
