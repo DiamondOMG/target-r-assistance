@@ -8,6 +8,8 @@ Skill คือคำแนะนำเฉพาะงานที่ช่ว�
 |---|---|---|
 | Target-R และ DS Loader | ถามความรู้หรือข้อมูล read-only เกี่ยวกับ Target-R/DS Loader | [`targetr_system.md`](targetr_system.md) |
 | ค้นหาจอและสถานที่ใกล้เคียง | ค้นหาจอ ห้าง หรือสาขาที่อยู่ใกล้จุดอ้างอิงผ่านพิกัดภูมิศาสตร์ | [`screen_location.md`](screen_location.md) |
+| จัดเตรียมข้อมูลสำหรับ Manage Target-R | สร้างข้อมูล/ไฟล์ (TSV/JSON) พร้อมก๊อปปี้ไปวางอัปเดตฟิลด์หน้าจอหรือ Sequence หลายรายการพร้อมกันที่ `https://tops.actx.digital/manage_target_r` | [`manage_target_r.md`](manage_target_r.md) |
+| คู่มือระบบและเครื่องมือ Act-X Programmatic CMS | แนะนำเครื่องมือ ลิงก์หน้าเว็บ และเตรียมข้อมูลให้ผู้ใช้ไปดำเนินการต่อบนระบบ `https://tops.actx.digital` (ครบทั้ง 15+ หน้า/เครื่องมือ) | [`programmatic_cms_guide.md`](programmatic_cms_guide.md) |
 
 ## แนวทางเพิ่ม Skill
 

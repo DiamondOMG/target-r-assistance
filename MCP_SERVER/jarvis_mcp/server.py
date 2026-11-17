@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import subprocess
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from dotenv import load_dotenv
@@ -10,9 +12,15 @@ from pydantic import BaseModel, ConfigDict, Field
 from jarvis_mcp.email_sender import send_email as run_send_email
 from jarvis_mcp.fuzzy_search import targetr_fuzzy_search as run_fuzzy_search
 from jarvis_mcp.geo_distance import geo_distance as run_geo_distance
+from jarvis_mcp.programmatic_helper import (
+    UpdateMode,
+    prepare_targetr_update as run_prepare_targetr_update,
+)
+from jarvis_mcp.stuck_screens import find_stuck_screens as run_find_stuck_screens
 from jarvis_mcp.targetr_function import TargetRFunction
 from jarvis_mcp.targetr_query import TargetRQuery
 
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 load_dotenv()
 
 _query_client: TargetRQuery | None = None
@@ -242,7 +250,132 @@ async def send_email_tool(
     )
 
 
+@mcp.tool(
+    name="prepare_targetr_update",
+    description=(
+        "Generate ready-to-paste TSV and JSON payloads (and save files in SANDBOX/) for the user to copy and paste "
+        "into the Manage Target-R web tool (https://tops.actx.digital/manage_target_r). "
+        "Supports bulk screen field updates (multiple_update_screens), single screen JSON update (single_screen_json), "
+        "inserting sequence items (insert_sequence_items), and updating existing sequence items (update_existing_sequence_items). "
+        "Does not mutate Target-R directly; outputs formatted content and step-by-step instructions for the user."
+    ),
+)
+async def prepare_targetr_update_tool(
+    mode: Annotated[
+        UpdateMode,
+        Field(
+            description=(
+                "Operation mode: 'multiple_update_screens', 'single_screen_json', "
+                "'insert_sequence_items', or 'update_existing_sequence_items'"
+            )
+        ),
+    ],
+    rows: Annotated[
+        list[dict[str, Any]],
+        Field(
+            description=(
+                "List of row objects. For multiple_update_screens: [{'screen_id': '...', '<field>': '...'}]. "
+                "For single_screen_json: [{'<field>': '...'}]. "
+                "For insert_sequence_items: [{'inner_sequence_id': '...', 'slot': 1, 'item': 1, ...}]. "
+                "For update_existing_sequence_items: [{'inner_sequence_id': '...', 'slot': 1, 'item': 1, 'customId': '...'}]."
+            )
+        ),
+    ],
+    target_id: Annotated[
+        str | None,
+        Field(description="Target Screen ID (for single_screen_json) or Sequence ID (for sequence modes)"),
+    ] = None,
+    filename_prefix: Annotated[
+        str,
+        Field(description="Prefix for generated files inside SANDBOX/ (default 'manage_target_r')"),
+    ] = "manage_target_r",
+) -> dict[str, Any]:
+    """Prepare TSV/JSON payloads and save files in SANDBOX/ for Manage Target-R web tool."""
+    return run_prepare_targetr_update(
+        mode=mode,
+        rows=rows,
+        target_id=target_id,
+        filename_prefix=filename_prefix,
+    )
+
+
+@mcp.tool(
+    name="targetr_stuck_screens",
+    description=(
+        "List screens suffering from 'Player comms problem' (จอติดใบ้: DS Loader is online via lastLoaderCommsMillis, "
+        "but the media player stopped communicating via lastPlayerCommsMillis, resulting in a black screen while appearing Online). "
+        "Refreshes Neon screen data by default, sorts by longest stuck duration, and exports full list to SANDBOX/stuck_screens_report.csv."
+    ),
+)
+async def targetr_stuck_screens_tool(
+    min_stuck_minutes: Annotated[
+        int,
+        Field(description="Minimum minutes since lastPlayerCommsMillis compared to lastLoaderCommsMillis (default 60)"),
+    ] = 60,
+    loader_online_window_minutes: Annotated[
+        int,
+        Field(description="Window in minutes to consider DS Loader online relative to newest loader comms (default 10)"),
+    ] = 10,
+    retailer: Annotated[
+        str | None,
+        Field(description="Optional retailer filter, e.g. 'Tops', 'Big C'"),
+    ] = None,
+    store_query: Annotated[
+        str | None,
+        Field(description="Optional substring filter on storeLocation or screen label"),
+    ] = None,
+    limit: Annotated[
+        int,
+        Field(description="Max rows returned in tool response (default 50; full list saved to CSV)"),
+    ] = 50,
+    freshness: Annotated[
+        Literal["cached", "refresh"],
+        Field(description="Use 'refresh' (default) to sync latest Target-R state to Neon before checking, or 'cached'"),
+    ] = "refresh",
+) -> dict[str, Any]:
+    """List screens where DS Loader is online but Player stopped communicating (Player comms problem)."""
+    return await run_find_stuck_screens(
+        min_stuck_minutes=min_stuck_minutes,
+        loader_online_window_minutes=loader_online_window_minutes,
+        retailer=retailer,
+        store_query=store_query,
+        limit=limit,
+        freshness=freshness,
+    )
+
+
+def _auto_update_if_staff() -> None:
+    """เมื่อ PERMISSION=staff ให้ดึงเวอร์ชันล่าสุดจาก origin/main อัตโนมัติตอนเริ่ม MCP Server"""
+    permission = os.getenv("PERMISSION", "staff").strip().lower()
+    if permission != "staff":
+        return
+
+    repo_root = Path(__file__).resolve().parents[2]
+    if not (repo_root / ".git").exists():
+        return
+
+    try:
+        subprocess.run(
+            ["git", "fetch", "origin", "main"],
+            cwd=str(repo_root),
+            capture_output=True,
+            timeout=5,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "reset", "--hard", "origin/main"],
+            cwd=str(repo_root),
+            capture_output=True,
+            timeout=5,
+            check=True,
+        )
+    except Exception:
+        # ห้ามทำให้ MCP Server ล่มหากเครื่องออฟไลน์หรือยังไม่ได้ตั้งค่า remote
+        pass
+
+
 def main() -> None:
+    _auto_update_if_staff()
     mcp.run(transport="stdio")
 
 

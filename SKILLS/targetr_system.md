@@ -13,7 +13,7 @@
 ## ขั้นตอน
 
 1. แยกก่อนว่าคำถามต้องการ **ความรู้จากเอกสาร**, **ข้อมูลสด/ข้อมูลที่ sync ไว้**, หรือทั้งสองอย่าง
-2. คำถามเชิงความหมายหรือวิธีทำงาน ให้ใช้เอกสาร Target-R/DS Loader ที่ลงทะเบียนไว้ หากไม่มีเอกสารหรือ tool สำหรับ DS Loader ให้แจ้งข้อจำกัด ห้ามเดา
+2. คำถามเชิงความหมาย สเปกฮาร์ดแวร์ Data Model หรือวิธีทำงาน ให้เปิดอ่านเอกสารที่ลงทะเบียนไว้ใน `KNOWLEDGE/index.md` (เช่น `KNOWLEDGE/target-r/`, `KNOWLEDGE/android-box/`, `KNOWLEDGE/hikvision/`) หากไม่มีเอกสารหรือ tool สำหรับเรื่องนั้น ให้แจ้งข้อจำกัด ห้ามเดา
 3. คำถามทั่วไปเกี่ยวกับข้อมูล Screen, Sequence หรือ Library item ให้ใช้ MCP tool `targetr_query` ตาม contract ใน `MCP_SERVER/TOOLS/targetr_query.md`
 3. ใช้ `targetr_function` ตาม `MCP_SERVER/TOOLS/targetr_function.md` เมื่อต้องประมวลผล nested/raw JSON ใน Neon ที่ `targetr_query` ไม่รองรับและต้องการไฟล์ CSV; tool ประมวลผล raw ภายใน MCP แล้วคืน path ของไฟล์ ไม่ส่ง dataset ทั้งก้อนใน tool response. ระบุ filter/fields เท่าที่ต้องการ; ถ้าผู้ใช้ต้องการ raw ครบ ให้ละ fields เพื่อ export ทุก column
 5. ใช้ `freshness="cached"` โดยปริยาย; เมื่อผู้ใช้ถามข้อมูลล่าสุด, เวลาที่เปลี่ยนแปลงได้ หรือระบุให้ refresh ให้ใช้ `freshness="refresh"` เพื่อ sync entity นั้นกับ Target-R ก่อนอ่าน (การ refresh ทำให้เกิด sync/upsert ลง Neon)
@@ -50,6 +50,19 @@
 3. เรียก `select` ด้วย filters `lastPlayerCommsMillis gt 0` และ `lastPlayerCommsMillis lt cutoff_ms`, โดยใช้ `freshness="cached"` เพื่อใช้ snapshot เดียวกับขั้นแรก
 4. เลือก fields เท่าที่จำเป็น เช่น `label`, `storeCode`, `storeLocation`, `lastPlayerCommsMillis`; ใช้ `screenId` เฉพาะเมื่อจำเป็นต้องแยกอุปกรณ์ และ page ด้วย `limit`/`offset` จนครบ `total`
 5. แจ้งจำนวน, threshold 1 ชั่วโมง, `as_of` และห้ามเรียกผลนี้ว่า proof of playback หรือจอดับ
+
+## การตรวจสอบจอติดใบ้ / จอดำแต่ขึ้นออนไลน์ (`Player comms problem`)
+
+* **อาการ:** หน้าเว็บ Target-R แสดงปุ่ม `On` สีเขียว (ออนไลน์) แต่ขึ้นไอคอนแจ้งเตือน **`Player comms problem`** และจอจริงเป็นจอดำ ไม่เล่นสื่อ; เมื่อรีสตาร์ทแอป Target-R หรือรีบูตเครื่องแล้วกลับมาเล่นปกติ
+* **สาเหตุเชิงเทคนิค:**
+  - แอป Target-R (`net.targetr.stacks.central`) มี 2 ส่วนทำงานแยกกัน: **DS Loader** (รายงาน `lastLoaderCommsMillis` ทุก 30 วินาที → ใช้โชว์ `On` สีเขียว) และ **Player** (`android-player-2023-06-02.apk` รายงาน `lastPlayerCommsMillis` ทุก 60 วินาที)
+  - เมื่อเกิด MediaCodec / WebView deadlock หรือ Java Heap เต็ม (`memFree` เหลือต่ำ) ในโปรเซสเดิม ทำให้ตัว Player ค้างและหยุดส่ง heartbeat (`lastPlayerCommsMillis` หยุดนิ่ง) แต่ตัว DS Loader เบื้องหลังยังส่งสัญญาณปกติ
+  - แม้ DS Loader จะพยายามสั่ง start Player ซ้ำ (`recentStartCount` สูงขึ้น) แต่เพราะรันในโปรเซส Android เดิมที่ค้างอยู่จึงไม่หลุด จนกว่าจะ Force Stop / รีสตาร์ทแอป หรือรีบูตเครื่อง
+* **วิธีแก้ไข:**
+  1. รีสตาร์ทแอป `net.targetr.stacks.central` (Force Stop แล้วเปิดใหม่) หรือรีบูตกล่อง Android Box ผ่าน AnyDesk / ADB (`adb shell am force-stop net.targetr.stacks.central` หรือ `adb reboot`)
+  2. ตรวจสอบจอที่มี `memFree` ต่ำมากหรือใช้ `android-player-2023-06-02.apk` ที่มีอาการซ้ำบ่อย
+* **วิธีลิตจอติดใบ้ทั้งหมดเมื่อผู้ใช้ถาม:**
+  - เรียกใช้ MCP tool **`targetr_stuck_screens`** (ค่าเริ่มต้น `min_stuck_minutes=60`, `freshness="refresh"`) เพื่อดึงรายชื่อจอที่ Loader ยังออนไลน์แต่ Player เงียบหาย พร้อมระยะเวลาที่ค้าง, `recentStartCount`, `memFreeMB`, หมายเลข `ACT_AnyDesk` และส่งออก CSV ไว้ที่ `SANDBOX/stuck_screens_report.csv`
 
 ## ข้อห้าม
 
