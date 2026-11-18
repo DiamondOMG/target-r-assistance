@@ -424,7 +424,7 @@ async def team_knowledge_save_tool(
     description=(
         "Control the office Sharp Smart TVs via ADB over Tailscale VPN. "
         "Supports opening dashboard web URLs (auto-stops DS Loader), launching/restarting/stopping DS Loader (Target-R), "
-        "switching HDMI inputs (hdmi1/hdmi2), sending Home/Back/Wake keys, and locking ADB port 5555."
+        "setting fullscreen/desktop_view, switching HDMI inputs (hdmi1/hdmi2), sending Home/Back/Wake keys, and locking ADB port 5555."
     ),
 )
 async def tv_control_tool(
@@ -434,7 +434,7 @@ async def tv_control_tool(
     ] = "sharp_left",
     action: Annotated[
         TVAction,
-        Field(description="Command action: 'status', 'open_url', 'open_dsloader', 'restart_dsloader', 'stop_dsloader', 'hdmi1', 'hdmi2', 'home', 'back', 'wake', 'lock_adb_port'"),
+        Field(description="Command action: 'status', 'open_url', 'open_dsloader', 'restart_dsloader', 'stop_dsloader', 'fullscreen', 'desktop_view', 'hdmi1', 'hdmi2', 'home', 'back', 'wake', 'lock_adb_port'"),
     ] = "status",
     url: Annotated[
         str | None,

@@ -59,6 +59,16 @@ def test_tv_control_open_url_and_dsloader():
     assert "force-stop" in recorded_cmds[1]
 
     recorded_cmds.clear()
+    res_fs = tv_control(
+        tv="sharp_right",
+        action="fullscreen",
+        adb_runner=fake_runner,
+        adb_path="adb",
+    )
+    assert res_fs["status"] == "success"
+    assert any("immersive.full" in " ".join(cmd) for cmd in recorded_cmds)
+
+    recorded_cmds.clear()
     res_ds = tv_control(
         tv="ซ้าย",
         action="restart_dsloader",

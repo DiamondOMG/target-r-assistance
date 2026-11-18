@@ -13,6 +13,8 @@ TVAction = Literal[
     "open_dsloader",
     "restart_dsloader",
     "stop_dsloader",
+    "fullscreen",
+    "desktop_view",
     "hdmi1",
     "hdmi2",
     "home",
@@ -172,6 +174,16 @@ def tv_control(
         )
     elif action == "stop_dsloader":
         commands.append([adb_bin, "-s", target_serial, "shell", "am", "force-stop", DSLOADER_PACKAGE])
+    elif action == "fullscreen":
+        commands.append([adb_bin, "-s", target_serial, "shell", "settings put global policy_control immersive.full=*"])
+        commands.append([adb_bin, "-s", target_serial, "shell", "input keyevent KEYCODE_F11"])
+    elif action == "desktop_view":
+        # Toggle/Open site panel in TV Bro to switch to Desktop view
+        commands.append([adb_bin, "-s", target_serial, "shell", "input tap 280 20"])
+        commands.append([adb_bin, "-s", target_serial, "shell", "sleep 0.4"])
+        commands.append([adb_bin, "-s", target_serial, "shell", "input tap 360 215"])
+        commands.append([adb_bin, "-s", target_serial, "shell", "sleep 0.4"])
+        commands.append([adb_bin, "-s", target_serial, "shell", "input keyevent KEYCODE_DPAD_CENTER"])
     elif action == "hdmi1":
         commands.append(
             [adb_bin, "-s", target_serial, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "content://android.media.tv/passthrough/passthrough_hdmi1"]
