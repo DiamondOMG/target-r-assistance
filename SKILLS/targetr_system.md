@@ -64,6 +64,12 @@
 * **วิธีลิตจอติดใบ้ทั้งหมดเมื่อผู้ใช้ถาม:**
   - เรียกใช้ MCP tool **`targetr_stuck_screens`** (ค่าเริ่มต้น `min_stuck_minutes=60`, `freshness="refresh"`) เพื่อดึงรายชื่อจอที่ Loader ยังออนไลน์แต่ Player เงียบหาย พร้อมระยะเวลาที่ค้าง, `recentStartCount`, `memFreeMB`, หมายเลข `ACT_AnyDesk` และส่งออก CSV ไว้ที่ `SANDBOX/stuck_screens_report.csv`
 
+## รูปแบบการตอบเมื่อผู้ใช้ขอเฉพาะ MAC Address / Screen ID
+
+- หากผู้ใช้ระบุว่าต้องการแค่ `macaddress`, `เลข mac`, หรือ `screenId` เพื่อนำไปก๊อปปี้วางใน CMS:
+  - ให้แสดงผลใน **code block** ที่มี **เฉพาะเลข MAC Address / Screen ID ล้วน ๆ บรรทัดละ 1 ตัว** เท่านั้น
+  - **ห้าม** ใส่ตาราง, **ห้าม** ใส่เลขลำดับ (`1.`, `2.`), **ห้าม** ใส่ขีด `-` หรือชื่อสาขาปนใน code block เพื่อให้ผู้ใช้กด Copy ครั้งเดียวไปวางใช้งานได้ทันที
+
 ## ข้อห้าม
 
 - ห้ามเรียก API โดยตรงจาก Model/Agent และห้ามสร้าง URL หรือ method เอง

@@ -1,8 +1,11 @@
 ---
 type: index
 status: active
-updated: 2026-11-17
+updated: 2026-11-18
+parent: "[[KNOWLEDGE/index]]"
 related:
+  - "[[00_INDEX]]"
+  - "[[KNOWLEDGE/index]]"
   - "[[TargetR_Neon_Integration]]"
   - "[[data-model/TargetR_Screen_DataModel]]"
   - "[[data-model/TargetR_Sequence_DataModel]]"
@@ -16,9 +19,12 @@ related:
   - "[[API_Playback_Simulation]]"
   - "[[API_Content_Building]]"
   - "[[TargetR_Player_Comms_Problem_Troubleshooting]]"
+  - "[[TargetR_ESC_POS_Bluetooth_Printer_Setup]]"
 ---
 
-# 00_TARGET_R_INDEX
+# 00_TARGET_R_INDEX (ดัชนีย่อยชั้นที่ 2 — Target-R & API)
+
+> **Pyramid Navigation:** [`00_INDEX.md`](../../00_INDEX.md) (ยอดปิรามิด) > [`KNOWLEDGE/index.md`](../index.md) (ชั้นที่ 1) > **Target-R & API (ชั้นที่ 2)** > เอกสารสเปก/API (ชั้นที่ 3)
 
 > เอกสารความรู้ทางเทคนิคของ Target-R สำหรับทีม (ไม่เก็บค่า Credentials หรือ Token จริงในไฟล์นี้)
 

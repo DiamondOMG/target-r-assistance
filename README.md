@@ -8,11 +8,12 @@
 
 | โฟลเดอร์ / ไฟล์ | หน้าที่ |
 |---|---|
-| `AGENTS.md` | กฎหลักและสิทธิ์การใช้งาน (`PERMISSION=staff` / `admin`) |
-| `SKILLS/` | ขั้นตอนการทำงานเฉพาะงาน (เช็คจอ, หาตำแหน่งใกล้เคียง, เตรียมไฟล์ `manage_target_r`, คู่มือ CMS) |
-| `KNOWLEDGE/` | คลังความรู้ทางเทคนิค (`target-r`, `android-box`, `hikvision`) |
-| `SHEETS_INDEX.md` | โครงสร้างของ Google Sheets ที่เชื่อมต่อ |
-| `MCP_SERVER/` | Python FastMCP Server (`jarvis_mcp/`) และ Unit Tests |
+| [`00_INDEX.md`](00_INDEX.md) | **ยอดปิรามิด (สารบัญหลัก)**: จุดเริ่มต้นเดียวสำหรับทุกคำถามและแผนผังนำทางสู่หมวดย่อยทั้งหมด |
+| [`AGENTS.md`](AGENTS.md) | กฎหลัก ลำดับการอ่านปิรามิด และสิทธิ์การใช้งาน (`PERMISSION=staff` / `admin`) |
+| [`SKILLS/`](SKILLS/index.md) | ขั้นตอนการทำงานเฉพาะงาน (เช็คจอ, หาตำแหน่งใกล้เคียง, เตรียมไฟล์ `manage_target_r`, คู่มือ CMS, คลังความรู้ทีม, ควบคุมจอ Sharp) |
+| [`KNOWLEDGE/`](KNOWLEDGE/index.md) | คลังความรู้ทางเทคนิค (`target-r`, `android-box`, `hikvision`) |
+| [`SHEETS_INDEX.md`](SHEETS_INDEX.md) | โครงสร้างของ Google Sheets ที่เชื่อมต่อ |
+| [`MCP_SERVER/`](MCP_SERVER/index.md) | Python FastMCP Server (`jarvis_mcp/`), เอกสาร Tools และ Unit Tests |
 | `SANDBOX/` | พื้นที่สำหรับสร้างไฟล์ CSV/TSV/JSON (ทีม Operation ทำงานในโฟลเดอร์นี้เท่านั้น) |
 | `setup_team.bat` | สคริปต์ดับเบิลคลิกครั้งเดียวสำหรับติดตั้งบนเครื่องทีม Operation |
 
@@ -55,8 +56,8 @@
      }
    }
    ```
-3. รีเฟรช MCP Server ให้ขึ้นสถานะไฟเขียว พร้อมใช้งาน 7 Tools:
-   - `targetr_query`, `targetr_function`, `targetr_stuck_screens` (เช็คจอติดใบ้), `targetr_fuzzy_search`, `geo_distance`, `prepare_targetr_update` (เตรียมไฟล์วางใน `manage_target_r`), `send_email`
+3. รีเฟรช MCP Server ให้ขึ้นสถานะไฟเขียว พร้อมใช้งาน **10 Tools**:
+   - `targetr_query`, `targetr_function`, `targetr_stuck_screens` (เช็คจอติดใบ้), `targetr_fuzzy_search`, `geo_distance`, `prepare_targetr_update` (เตรียมไฟล์วางใน `manage_target_r`), `team_knowledge_search`, `team_knowledge_save` (คลังความรู้ทีม Real-time), `tv_control` (ควบคุมจอ Sharp ผ่าน Tailscale + ADB), `send_email`
 
 ### 5. วิธีใช้งานประจำวันสำหรับทีม Operation
 1. เปิดโปรแกรม **Antigravity Desktop** → กด **Open Folder** เลือกโฟลเดอร์ `target-r-assistance`

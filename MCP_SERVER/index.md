@@ -1,10 +1,30 @@
-# MCP Server Index
+---
+type: index
+status: active
+updated: 2026-11-18
+parent: "[[00_INDEX]]"
+related:
+  - "[[00_INDEX]]"
+  - "[[TOOLS/targetr_query]]"
+  - "[[TOOLS/targetr_function]]"
+  - "[[TOOLS/geo_distance]]"
+  - "[[TOOLS/fuzzy_search]]"
+  - "[[TOOLS/send_email]]"
+  - "[[TOOLS/prepare_targetr_update]]"
+  - "[[TOOLS/targetr_stuck_screens]]"
+  - "[[TOOLS/team_knowledge]]"
+  - "[[TOOLS/tv_control]]"
+---
 
-MCP Server เปิด tools ให้ Agent เรียกใช้ความสามารถของระบบและข้อมูลภายใน โดย Agent ต้องตรวจรายการ tools และ schema ที่ MCP Server เปิดให้จริงก่อนเรียกใช้งาน. รันเริ่มต้นผ่าน Python MCP SDK แบบ stdio; tool cache อยู่ใน process memory.
+# MCP Server Index (เสาหลักชั้นที่ 1 — เครื่องมือ MCP Tools)
+
+> **Pyramid Navigation:** [`00_INDEX.md`](../00_INDEX.md) (ยอดปิรามิด) > **MCP Server Index (ชั้นที่ 1)** > Tool Contracts `TOOLS/*.md` (ชั้นที่ 2)
+
+MCP Server เปิด tools ให้ Agent เรียกใช้ความสามารถของระบบและข้อมูลภายใน โดย Agent ต้องตรวจรายการ tools และ schema ที่ MCP Server เปิดให้จริงก่อนเรียกใช้งาน (เป็นเสาหลักชั้นที่ 1 ต่อจาก [`00_INDEX.md`](../00_INDEX.md)). รันเริ่มต้นผ่าน Python MCP SDK แบบ stdio; tool cache อยู่ใน process memory.
 
 ## สถานะ
 
-มี Python MCP tools `targetr_query` สำหรับ query ข้อมูล Target-R ที่ sync อยู่ใน Neon และ `targetr_function` สำหรับรัน declarative JSON pipeline กับ raw rows ที่อ่านจาก Neon โดยประมวลผลภายใน MCP เท่านั้น
+มี Python MCP Server ให้บริการทั้งหมด **10 Tools** (แยกเอกสาร Contract ใน `TOOLS/` 9 ไฟล์) รวมถึง `targetr_query` สำหรับ query ข้อมูล Target-R ที่ sync อยู่ใน Neon และ `targetr_function` สำหรับรัน declarative JSON pipeline กับ raw rows ที่อ่านจาก Neon โดยประมวลผลภายใน MCP เท่านั้น
 
 ## Tool Registry
 
@@ -19,6 +39,7 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 | `targetr_stuck_screens` | ค้นหาจอที่ติดใบ้ (`Player comms problem` — Loader ออนไลน์แต่ Player ค้างจอดำ) | min_stuck_minutes, loader_online_window_minutes, retailer, store_query, limit, freshness optional | รายการจอติดใบ้เรียงตามเวลาที่ค้าง + path ไฟล์ CSV ใน `SANDBOX/` | [`TOOLS/targetr_stuck_screens.md`](TOOLS/targetr_stuck_screens.md) |
 | `team_knowledge_search` | ค้นหาคลังความรู้ส่วนกลางของทีมแบบ Real-time จากแท็บ `Team_Knowledge` และโฟลเดอร์ Drive `Editor` | query, category, limit optional | รายการโน้ตความรู้ของทีมและไฟล์จาก Drive | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
 | `team_knowledge_save` | บันทึก/อัปเดตความรู้ใหม่เข้าคลังส่วนกลางของทีม (ใช้ร่วมกันได้ทุกคนทันทีโดยไม่ต้องรอ `git push`) | title, content; category, tags, updated_by, topic_id optional | สถานะบันทึก (`created`/`updated`), `topic_id` และลิงก์ชีต | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
+| `tv_control` | สั่งควบคุมจอ Sharp Smart TV ในห้องทำงานผ่าน ADB over Tailscale | tv, action; url optional | สถานะการสั่งงานและผลลัพธ์จาก ADB | [`TOOLS/tv_control.md`](TOOLS/tv_control.md) |
 
 ## ข้อกำหนดสำหรับ tools
 
@@ -32,4 +53,4 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 
 ## วิธีเพิ่ม tool
 
-เมื่อเพิ่ม tool ให้ลงทะเบียนใน Tool Registry พร้อมคำอธิบาย, เงื่อนไขการใช้, input ที่จำเป็น และผลลัพธ์ที่คืน จากนั้นเพิ่มรายละเอียดเชิงเทคนิคและ tests ในตำแหน่ง implementation ของ MCP Server
+เมื่อเพิ่ม tool ให้ลงทะเบียนใน Tool Registry พร้อมคำอธิบาย, เงื่อนไขการใช้, input ที่จำเป็น และผลลัพธ์ที่คืน จากนั้นเพิ่มรายละเอียดเชิงเทคนิคใน `TOOLS/`, tests ใน `tests/` และอัปเดตตารางนำทางใน [`00_INDEX.md`](../00_INDEX.md)

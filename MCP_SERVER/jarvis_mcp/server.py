@@ -23,6 +23,10 @@ from jarvis_mcp.team_knowledge import (
     team_knowledge_save as run_team_knowledge_save,
     team_knowledge_search as run_team_knowledge_search,
 )
+from jarvis_mcp.tv_control import (
+    TVAction,
+    tv_control as run_tv_control,
+)
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 load_dotenv()
@@ -413,6 +417,32 @@ async def team_knowledge_save_tool(
         updated_by=updated_by,
         topic_id=topic_id,
     )
+
+
+@mcp.tool(
+    name="tv_control",
+    description=(
+        "Control the office Sharp Smart TVs via ADB over Tailscale VPN. "
+        "Supports opening dashboard web URLs, launching/restarting DS Loader (Target-R), "
+        "switching HDMI inputs (hdmi1/hdmi2), sending Home/Back/Wake keys, and locking ADB port 5555."
+    ),
+)
+async def tv_control_tool(
+    tv: Annotated[
+        str,
+        Field(description="Target TV: 'sharp_left' (or 'left'/'ซ้าย'/'A4AE125D42DE'), 'sharp_right' (or 'right'/'ขวา'), or direct Tailscale IP"),
+    ] = "sharp_left",
+    action: Annotated[
+        TVAction,
+        Field(description="Command action: 'status', 'open_url', 'open_dsloader', 'restart_dsloader', 'hdmi1', 'hdmi2', 'home', 'back', 'wake', 'lock_adb_port'"),
+    ] = "status",
+    url: Annotated[
+        str | None,
+        Field(description="Required when action='open_url': full http:// or https:// URL to open on the TV browser"),
+    ] = None,
+) -> dict[str, Any]:
+    """Send ADB control commands to an office Sharp Smart TV over Tailscale."""
+    return run_tv_control(tv=tv, action=action, url=url)
 
 
 def _auto_update_if_staff() -> None:

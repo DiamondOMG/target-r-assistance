@@ -1,6 +1,19 @@
-# Sheets Index (Data Catalog)
+---
+type: index
+status: active
+updated: 2026-11-18
+parent: "[[00_INDEX]]"
+related:
+  - "[[00_INDEX]]"
+  - "[[SKILLS/targetr_system]]"
+  - "[[SKILLS/team_knowledge]]"
+---
 
-สารบัญและ Data Dictionary ของ Google Sheets ทั้งหมดที่เชื่อมต่อกับระบบ Jarvis เพื่อให้ AI Agent ทราบโครงสร้างข้อมูล (Schema), ความหมายของฟิลด์ และคีย์เชื่อมโยงก่อนเรียกอ่านข้อมูลจริงผ่าน Google Sheets API
+# Sheets Index (เสาหลักชั้นที่ 1 — Data Catalog Google Sheets)
+
+> **Pyramid Navigation:** [`00_INDEX.md`](00_INDEX.md) (ยอดปิรามิด) > **Sheets Index (ชั้นที่ 1)** > Schema & Keys ของแต่ละ Google Sheet (ชั้นที่ 2)
+
+สารบัญและ Data Dictionary ของ Google Sheets ทั้งหมดที่เชื่อมต่อกับระบบ Jarvis เพื่อให้ AI Agent ทราบโครงสร้างข้อมูล (Schema), ความหมายของฟิลด์ และคีย์เชื่อมโยงก่อนเรียกอ่านข้อมูลจริงผ่าน Google Sheets API (เป็นเสาหลักชั้นที่ 1 ต่อจาก [`00_INDEX.md`](00_INDEX.md))
 
 ---
 
