@@ -44,7 +44,19 @@ def test_tv_control_open_url_and_dsloader():
     assert res["status"] == "success"
     assert res["target"] == "100.120.41.101:5555"
     assert recorded_cmds[0] == ["adb", "connect", "100.120.41.101:5555"]
-    assert "https://tops.actx.digital/screen-monitor" in recorded_cmds[1]
+    assert "force-stop" in recorded_cmds[1]
+    assert "https://tops.actx.digital/screen-monitor" in recorded_cmds[2]
+
+    recorded_cmds.clear()
+    res_stop = tv_control(
+        tv="sharp_left",
+        action="stop_dsloader",
+        adb_runner=fake_runner,
+        adb_path="adb",
+    )
+    assert res_stop["status"] == "success"
+    assert len(recorded_cmds) == 2  # connect + force-stop
+    assert "force-stop" in recorded_cmds[1]
 
     recorded_cmds.clear()
     res_ds = tv_control(

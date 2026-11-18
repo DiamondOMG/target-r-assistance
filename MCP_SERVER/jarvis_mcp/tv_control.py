@@ -12,6 +12,7 @@ TVAction = Literal[
     "open_url",
     "open_dsloader",
     "restart_dsloader",
+    "stop_dsloader",
     "hdmi1",
     "hdmi2",
     "home",
@@ -155,6 +156,8 @@ def tv_control(
     if action == "status":
         commands.append([adb_bin, "devices"])
     elif action == "open_url":
+        # Force-stop DS Loader first so its auto-start does not steal focus back from the browser
+        commands.append([adb_bin, "-s", target_serial, "shell", "am", "force-stop", DSLOADER_PACKAGE])
         commands.append(
             [adb_bin, "-s", target_serial, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", validated_url]
         )
@@ -167,6 +170,8 @@ def tv_control(
         commands.append(
             [adb_bin, "-s", target_serial, "shell", "monkey", "-p", DSLOADER_PACKAGE, "-c", "android.intent.category.LAUNCHER", "1"]
         )
+    elif action == "stop_dsloader":
+        commands.append([adb_bin, "-s", target_serial, "shell", "am", "force-stop", DSLOADER_PACKAGE])
     elif action == "hdmi1":
         commands.append(
             [adb_bin, "-s", target_serial, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "content://android.media.tv/passthrough/passthrough_hdmi1"]

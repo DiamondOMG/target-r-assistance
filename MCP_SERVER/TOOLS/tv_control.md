@@ -18,7 +18,7 @@
 | Field | Type | Required | ความหมาย / ข้อจำกัด |
 |---|---|---:|---|
 | `tv` | string | no | ชื่อจอ (`sharp_left`, `sharp_right`, หรือระบุ Tailscale IP ตรงๆ) ค่าเริ่มต้น `"sharp_left"` |
-| `action` | string enum | no | คำสั่ง: `status`, `open_url`, `open_dsloader`, `restart_dsloader`, `hdmi1`, `hdmi2`, `home`, `back`, `wake`, `lock_adb_port` |
+| `action` | string enum | no | คำสั่ง: `status`, `open_url` (จะ force-stop dsloader ก่อนเปิดเว็บอัตโนมัติ), `open_dsloader`, `restart_dsloader`, `stop_dsloader` (สั่ง force-stop ปิดแอป Target-R ทันที), `hdmi1`, `hdmi2`, `home`, `back`, `wake`, `lock_adb_port` |
 | `url` | string | no | บังคับเมื่อ `action="open_url"` (ต้องขึ้นต้นด้วย `http://` หรือ `https://`) |
 
 ## Errors ที่ควรแยก
