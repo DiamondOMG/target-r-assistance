@@ -1,7 +1,7 @@
 ---
 type: index
 status: active
-updated: 2026-11-18
+updated: 2026-11-19
 parent: "[[00_INDEX]]"
 related:
   - "[[00_INDEX]]"
@@ -14,6 +14,7 @@ related:
   - "[[TOOLS/targetr_stuck_screens]]"
   - "[[TOOLS/team_knowledge]]"
   - "[[TOOLS/tv_control]]"
+  - "[[TOOLS/playbox_adb]]"
 ---
 
 # MCP Server Index (เสาหลักชั้นที่ 1 — เครื่องมือ MCP Tools)
@@ -24,7 +25,7 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 
 ## สถานะ
 
-มี Python MCP Server ให้บริการทั้งหมด **10 Tools** (แยกเอกสาร Contract ใน `TOOLS/` 9 ไฟล์) รวมถึง `targetr_query` สำหรับ query ข้อมูล Target-R ที่ sync อยู่ใน Neon และ `targetr_function` สำหรับรัน declarative JSON pipeline กับ raw rows ที่อ่านจาก Neon โดยประมวลผลภายใน MCP เท่านั้น
+มี Python MCP Server ให้บริการทั้งหมด **11 Tools** (แยกเอกสาร Contract ใน `TOOLS/` 10 ไฟล์) รวมถึง `targetr_query` สำหรับ query ข้อมูล Target-R ที่ sync อยู่ใน Neon และ `targetr_function` สำหรับรัน declarative JSON pipeline กับ raw rows ที่อ่านจาก Neon โดยประมวลผลภายใน MCP เท่านั้น
 
 ## Tool Registry
 
@@ -40,6 +41,7 @@ MCP Server เปิด tools ให้ Agent เรียกใช้ควา�
 | `team_knowledge_search` | ค้นหาคลังความรู้ส่วนกลางของทีมแบบ Real-time จากแท็บ `Team_Knowledge` และโฟลเดอร์ Drive `Editor` | query, category, limit optional | รายการโน้ตความรู้ของทีมและไฟล์จาก Drive | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
 | `team_knowledge_save` | บันทึก/อัปเดตความรู้ใหม่เข้าคลังส่วนกลางของทีม (ใช้ร่วมกันได้ทุกคนทันทีโดยไม่ต้องรอ `git push`) | title, content; category, tags, updated_by, topic_id optional | สถานะบันทึก (`created`/`updated`), `topic_id` และลิงก์ชีต | [`TOOLS/team_knowledge.md`](TOOLS/team_knowledge.md) |
 | `tv_control` | สั่งควบคุมจอ Sharp Smart TV ในห้องทำงานผ่าน ADB over Tailscale | tv, action; url optional | สถานะการสั่งงานและผลลัพธ์จาก ADB | [`TOOLS/tv_control.md`](TOOLS/tv_control.md) |
+| `playbox_adb` | เชื่อมต่อ ADB over LAN/Wi-Fi เข้ากล่อง Playbox ด้วยเลข IP เพื่อเช็คค่า เปลี่ยนค่า และดำเนินการควบคุม | ip; action, port, namespace, key, value, package, permission, url, apk_path, command, filter_text, lines, confirm optional | สถานะการเชื่อมต่อ/ดำเนินการ, ข้อมูลเครื่อง หรือ path ไฟล์ screenshot ใน `SANDBOX/` | [`TOOLS/playbox_adb.md`](TOOLS/playbox_adb.md) |
 
 ## ข้อกำหนดสำหรับ tools
 

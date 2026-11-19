@@ -10,7 +10,7 @@ tags:
   - sharp-tv
   - hardware
 created: 2026-08-20
-updated: 2026-11-18
+updated: 2026-11-19
 source: personal-design
 parent: "[[KNOWLEDGE/index]]"
 related:
@@ -22,6 +22,7 @@ related:
   - "[[HK1_RBOX_K8_WiFi_Location_TargetR_Troubleshooting]]"
   - "[[Android_Box_Unassigned_GPS_Coordinates]]"
   - "[[Sharp_TV_Tailscale_ADB_Runbook]]"
+  - "[[Playbox_ADB_Debug_Setup_Guide]]"
 ---
 
 # 00_ANDROID_BOX_INDEX (ดัชนีย่อยชั้นที่ 2 — Android Box & Sharp TV)
@@ -41,3 +42,4 @@ related:
 - [`HK1_RBOX_K8_WiFi_Location_TargetR_Troubleshooting.md`](HK1_RBOX_K8_WiFi_Location_TargetR_Troubleshooting.md) = แก้ปัญหาพิกัด Wi-Fi Location เพี้ยนบนกล่อง HK1 RBOX K8 ใน Target-R
 - [`Android_Box_Unassigned_GPS_Coordinates.md`](Android_Box_Unassigned_GPS_Coordinates.md) = แก้ปัญหากล่อง Android Box ยังไม่ได้กำหนดพิกัด GPS
 - [`Sharp_TV_Tailscale_ADB_Runbook.md`](Sharp_TV_Tailscale_ADB_Runbook.md) = คู่มือเชื่อมต่อและตั้งค่า Sharp Smart TV ห้องทำงาน (`AQUOS_TVX19A` ตัวซ้าย / จอ 2 `A4AE125D42DE` และตัวขวา / จอ 3 `A4AE125D4ACC`) ผ่าน Tailscale + ADB และ `tv_control`
+- [`Playbox_ADB_Debug_Setup_Guide.md`](Playbox_ADB_Debug_Setup_Guide.md) = คู่มือเปิด Debug Mode (5 ขั้นตอนสำหรับผู้ใช้) และเชื่อมต่อ ADB เข้ากล่อง Playbox ในวงแลนผ่าน `playbox_adb`

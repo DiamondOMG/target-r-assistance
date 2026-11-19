@@ -1,7 +1,7 @@
 ---
 type: index
 status: active
-updated: 2026-11-18
+updated: 2026-11-19
 parent: "[[00_INDEX]]"
 related:
   - "[[00_INDEX]]"
@@ -11,6 +11,7 @@ related:
   - "[[programmatic_cms_guide]]"
   - "[[team_knowledge]]"
   - "[[tv_control]]"
+  - "[[playbox_adb]]"
 ---
 
 # Skills Index (เสาหลักชั้นที่ 1 — ขั้นตอนการทำงาน)
@@ -29,6 +30,7 @@ Skill คือคำแนะนำเฉพาะงานที่ช่ว�
 | คู่มือระบบและเครื่องมือ Act-X Programmatic CMS | แนะนำเครื่องมือ ลิงก์หน้าเว็บ และเตรียมข้อมูลให้ผู้ใช้ไปดำเนินการต่อบนระบบ `https://tops.actx.digital` (ครบทั้ง 15+ หน้า/เครื่องมือ) | [`programmatic_cms_guide.md`](programmatic_cms_guide.md) |
 | คลังความรู้ส่วนกลางของทีม | จดบันทึกหรือค้นหาวิธีแก้ปัญหาหน้างาน/SOP ร่วมกันทั้งทีมแบบ Real-time โดยไม่ต้องรอ `git push` | [`team_knowledge.md`](team_knowledge.md) |
 | ควบคุมจอ Sharp TV ในห้องทำงาน | สั่งเปิดเว็บแดชบอร์ด, เปิด/รีสตาร์ท DS Loader, สลับ HDMI บนจอ Sharp ผ่าน Tailscale + ADB | [`tv_control.md`](tv_control.md) |
+| เชื่อมต่อและจัดการกล่อง Playbox ผ่าน ADB | สั่ง ADB เข้ากล่อง Playbox ในวงแลนด้วย IP เพื่อเช็คค่า เปลี่ยนค่า ดำเนินการ หรือดูคู่มือเปิด Debug Mode | [`playbox_adb.md`](playbox_adb.md) |
 
 ## แนวทางเพิ่ม Skill
 

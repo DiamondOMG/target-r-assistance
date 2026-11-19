@@ -1,7 +1,7 @@
 ---
 type: index
 status: active
-updated: 2026-11-18
+updated: 2026-11-19
 parent: "[[00_INDEX]]"
 related:
   - "[[00_INDEX]]"
@@ -21,7 +21,7 @@ related:
 | หมวดหมู่ | เนื้อหาหลัก | ดัชนี (ชั้นที่ 2) |
 |---|---|---|
 | **Target-R & API** | Data Model ของ Screen/Sequence, Neon Sync APIs, Target-R APIs, อาการจอติดใบ้ (`Player comms problem`), ESC/POS Printer | [`target-r/00_TARGET_R_INDEX.md`](target-r/00_TARGET_R_INDEX.md) |
-| **Android Box & Sharp TV** | สเปกกล่อง HK1 RBOX K8, Playbox กลม, RK3328, ปัญหาพิกัด Wi-Fi / GPS และคู่มือ Sharp Smart TV (Tailscale + ADB) | [`android-box/00_ANDROID_BOX_INDEX.md`](android-box/00_ANDROID_BOX_INDEX.md) |
+| **Android Box & Sharp TV** | สเปกกล่อง HK1 RBOX K8, Playbox กลม, RK3328, ปัญหาพิกัด Wi-Fi / GPS, คู่มือเปิด Debug Mode & เชื่อมต่อ ADB กล่อง Playbox และคู่มือ Sharp Smart TV (Tailscale + ADB) | [`android-box/00_ANDROID_BOX_INDEX.md`](android-box/00_ANDROID_BOX_INDEX.md) |
 | **HIKVISION** | สเปกจอ HIKVISION, การเปิดสิทธิ์ AnyDesk/ADB, ติดตั้ง MPV และตั้งค่า USB Camera UVC | [`hikvision/00_HIKVISION_INDEX.md`](hikvision/00_HIKVISION_INDEX.md) |
 
 ## กฎสำคัญ

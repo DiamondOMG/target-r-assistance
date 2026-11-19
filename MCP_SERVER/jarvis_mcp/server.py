@@ -27,6 +27,10 @@ from jarvis_mcp.tv_control import (
     TVAction,
     tv_control as run_tv_control,
 )
+from jarvis_mcp.playbox_adb import (
+    PlayboxAction,
+    playbox_adb as run_playbox_adb,
+)
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 load_dotenv()
@@ -443,6 +447,98 @@ async def tv_control_tool(
 ) -> dict[str, Any]:
     """Send ADB control commands to an office Sharp Smart TV over Tailscale."""
     return run_tv_control(tv=tv, action=action, url=url)
+
+
+@mcp.tool(
+    name="playbox_adb",
+    description=(
+        "Connect to and manage an Android TV / Playbox device over LAN/Wi-Fi via ADB TCP/IP using its IP address. "
+        "Requires USB/Network Debugging to be enabled on the Playbox first (and Allow popup accepted on first connect). "
+        "Supports read-only diagnostics (connect, device_info, get_prop, get_setting, list_packages, check_app, check_webview, "
+        "check_location, logcat_tail, screenshot saved to SANDBOX/), settings/app management (set_setting, set_prop, set_timezone, "
+        "grant_permission, start_app, stop_app, restart_app, open_url, keyevent), high-risk gated ops (clear_app_data, install_apk, reboot), "
+        "and allowlisted safe shell commands."
+    ),
+)
+async def playbox_adb_tool(
+    ip: Annotated[
+        str,
+        Field(description="Target Playbox LAN/Wi-Fi IP address or host:port (e.g. '192.168.1.105')"),
+    ],
+    action: Annotated[
+        PlayboxAction,
+        Field(
+            description=(
+                "Action to execute: 'connect', 'disconnect', 'device_info', 'get_prop', 'get_setting', 'list_packages', "
+                "'check_app', 'check_webview', 'check_location', 'logcat_tail', 'screenshot', 'set_setting', 'set_prop', "
+                "'set_timezone', 'grant_permission', 'start_app', 'stop_app', 'restart_app', 'clear_app_data', 'open_url', "
+                "'keyevent', 'install_apk', 'reboot', 'shell'"
+            )
+        ),
+    ] = "connect",
+    port: Annotated[int, Field(description="ADB TCP port (default 5555)")] = 5555,
+    namespace: Annotated[
+        Literal["system", "secure", "global"] | None,
+        Field(description="Settings namespace for get_setting / set_setting ('system', 'secure', or 'global')"),
+    ] = None,
+    key: Annotated[
+        str | None,
+        Field(description="Property or setting key for get_prop, set_prop, get_setting, set_setting"),
+    ] = None,
+    value: Annotated[
+        str | None,
+        Field(description="Value for set_prop, set_setting, set_timezone (e.g. 'Asia/Bangkok'), keyevent (e.g. 'HOME'), or 'third_party' for list_packages"),
+    ] = None,
+    package: Annotated[
+        str | None,
+        Field(description="Android package name (defaults to net.targetr.stacks.central for check/start/stop/restart_app; required for clear_app_data and grant_permission)"),
+    ] = None,
+    permission: Annotated[
+        str | None,
+        Field(description="Android permission name for grant_permission, e.g. 'android.permission.ACCESS_FINE_LOCATION'"),
+    ] = None,
+    url: Annotated[
+        str | None,
+        Field(description="http:// or https:// URL for open_url"),
+    ] = None,
+    apk_path: Annotated[
+        str | None,
+        Field(description="Local .apk file path for install_apk (requires confirm=True)"),
+    ] = None,
+    command: Annotated[
+        str | None,
+        Field(description="Allowlisted safe ADB shell command for action='shell' (mutating commands require confirm=True)"),
+    ] = None,
+    filter_text: Annotated[
+        str | None,
+        Field(description="Optional substring filter for list_packages or logcat_tail"),
+    ] = None,
+    lines: Annotated[
+        int,
+        Field(description="Number of logcat lines for logcat_tail (1-200, default 50)"),
+    ] = 50,
+    confirm: Annotated[
+        bool,
+        Field(description="Required True for destructive or system-modifying actions: clear_app_data, install_apk, reboot, and mutating shell commands"),
+    ] = False,
+) -> dict[str, Any]:
+    """Connect to and inspect/configure/control a Playbox Android device over ADB TCP/IP."""
+    return run_playbox_adb(
+        ip=ip,
+        action=action,
+        port=port,
+        namespace=namespace,
+        key=key,
+        value=value,
+        package=package,
+        permission=permission,
+        url=url,
+        apk_path=apk_path,
+        command=command,
+        filter_text=filter_text,
+        lines=lines,
+        confirm=confirm,
+    )
 
 
 def _auto_update_if_staff() -> None:

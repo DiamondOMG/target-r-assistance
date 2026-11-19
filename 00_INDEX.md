@@ -1,7 +1,7 @@
 ---
 type: index
 status: active
-updated: 2026-11-18
+updated: 2026-11-19
 related:
   - "[[AGENTS]]"
   - "[[SKILLS/index]]"
@@ -38,13 +38,13 @@ related:
  [ ชั้นที่ 1: เสาหลัก ]
  SKILLS/index.md    MCP_SERVER/      KNOWLEDGE/       SHEETS_INDEX.md
  (วิธีคิด/ขั้นตอน)    index.md         index.md         (โครงสร้าง Google
-                    (10 Tools)       (คลังเทคนิค)       Sheets ที่เชื่อม)
+                    (11 Tools)       (คลังเทคนิค)       Sheets ที่เชื่อม)
        │                  │                │                  │
        ▼                  ▼                ▼                  ▼
  [ ชั้นที่ 2: ดัชนีย่อยและคู่มือเฉพาะทาง ]
  SKILLS/*.md        MCP_SERVER/      00_TARGET_R_     Jarvis_TargetR_Master
- (6 Skills)         TOOLS/*.md       INDEX.md         Tops Monitor
-                    (9 Tool Docs)    00_ANDROID_BOX_  (Schema & Keys)
+ (7 Skills)         TOOLS/*.md       INDEX.md         Tops Monitor
+                    (10 Tool Docs)   00_ANDROID_BOX_  (Schema & Keys)
                                      INDEX.md
                                      00_HIKVISION_
                                      INDEX.md
@@ -70,10 +70,11 @@ related:
 | 6 | สั่ง **ควบคุมจอ Sharp Smart TV ในห้องทำงาน** (`จอซ้าย`/`จอ 2`, `จอขวา`/`จอ 3` เปิดเว็บ, เปิด/รีสตาร์ท `dsloader`, สลับ HDMI/OS, เช็คสถานะ) | [`SKILLS/index.md`](SKILLS/index.md)<br/>[`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`SKILLS/tv_control.md`](SKILLS/tv_control.md) + [`MCP_SERVER/TOOLS/tv_control.md`](MCP_SERVER/TOOLS/tv_control.md) + [`KNOWLEDGE/android-box/Sharp_TV_Tailscale_ADB_Runbook.md`](KNOWLEDGE/android-box/Sharp_TV_Tailscale_ADB_Runbook.md) | `tv_control` (ADB over Tailscale) |
 | 7 | สั่ง **จดบันทึกความรู้หน้างาน/SOP ใหม่** หรือ **ค้นหาวิธีแก้ปัญหาที่ทีมบันทึกไว้แบบ Real-time** | [`SKILLS/index.md`](SKILLS/index.md)<br/>[`SHEETS_INDEX.md`](SHEETS_INDEX.md) | [`SKILLS/team_knowledge.md`](SKILLS/team_knowledge.md) + [`MCP_SERVER/TOOLS/team_knowledge.md`](MCP_SERVER/TOOLS/team_knowledge.md) | `team_knowledge_search`, `team_knowledge_save` (แท็บ `Team_Knowledge` & Google Drive) |
 | 8 | ถาม **Data Model, โครงสร้าง JSON, หรือ API เชิงเทคนิคของ Target-R / Neon Sync** | [`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`KNOWLEDGE/target-r/00_TARGET_R_INDEX.md`](KNOWLEDGE/target-r/00_TARGET_R_INDEX.md) | เอกสาร 14 ไฟล์ใน `KNOWLEDGE/target-r/` |
-| 9 | ถาม **สเปกกล่อง Android Box (`HK1 RBOX K8`, `AIS Playbox กลม`, `ACTMEDIA RK3328`) หรือปัญหาพิกัด Wi-Fi / GPS เพี้ยน** | [`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md`](KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md) | เอกสาร 6 ไฟล์ใน `KNOWLEDGE/android-box/` |
+| 9 | ถาม **สเปกกล่อง Android Box (`HK1 RBOX K8`, `AIS Playbox กลม`, `ACTMEDIA RK3328`) หรือปัญหาพิกัด Wi-Fi / GPS เพี้ยน** | [`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md`](KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md) | เอกสาร 7 ไฟล์ใน `KNOWLEDGE/android-box/` |
 | 10 | ถาม **สเปกจอ HIKVISION, การตั้งค่า AnyDesk/ADB, MPV Player, หรือกล้อง USB UVC** | [`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`KNOWLEDGE/hikvision/00_HIKVISION_INDEX.md`](KNOWLEDGE/hikvision/00_HIKVISION_INDEX.md) | เอกสาร 4 ไฟล์ใน `KNOWLEDGE/hikvision/` |
 | 11 | ถาม **ชื่อสาขาภาษาไทย/คำย่อ หรือตำแหน่งจุดติดตั้งจอและเราเตอร์บนผังร้าน (Floor Plan)** | [`SHEETS_INDEX.md`](SHEETS_INDEX.md) | [`SHEETS_INDEX.md`](SHEETS_INDEX.md) | Google Sheets `Jarvis_TargetR_Master` (`Location`, `Projects`, `Labels`) และ `Tops Monitor` |
 | 12 | สั่ง **ส่งอีเมลรายงานหรือ Alerts** | [`MCP_SERVER/index.md`](MCP_SERVER/index.md) | [`MCP_SERVER/TOOLS/send_email.md`](MCP_SERVER/TOOLS/send_email.md) | `send_email` (Gmail SMTP) |
+| 13 | สั่ง **ADB เข้ากล่อง Playbox / Android Box** ในวงแลนเพื่อเช็คค่า เปลี่ยนค่า ดำเนินการ หรือถาม **วิธีเปิด Debug Mode** | [`SKILLS/index.md`](SKILLS/index.md)<br/>[`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`SKILLS/playbox_adb.md`](SKILLS/playbox_adb.md) + [`MCP_SERVER/TOOLS/playbox_adb.md`](MCP_SERVER/TOOLS/playbox_adb.md) + [`KNOWLEDGE/android-box/Playbox_ADB_Debug_Setup_Guide.md`](KNOWLEDGE/android-box/Playbox_ADB_Debug_Setup_Guide.md) | `playbox_adb` (ADB over LAN/Wi-Fi TCP/IP) |
 
 ---
 
@@ -94,13 +95,13 @@ related:
 
 ### ชั้นที่ 1 — ดัชนีเสาหลัก 4 หมวด
 - [`SKILLS/index.md`](SKILLS/index.md) = ประตูแรกของโฟลเดอร์ `SKILLS/` (เลือกแนวทางและกฎของงาน)
-- [`MCP_SERVER/index.md`](MCP_SERVER/index.md) = ประตูแรกของโฟลเดอร์ `MCP_SERVER/` (ตรวจสอบ 10 MCP tools ที่เรียกได้จริง)
+- [`MCP_SERVER/index.md`](MCP_SERVER/index.md) = ประตูแรกของโฟลเดอร์ `MCP_SERVER/` (ตรวจสอบ 11 MCP tools ที่เรียกได้จริง)
 - [`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) = ประตูแรกของโฟลเดอร์ `KNOWLEDGE/` (คลังความรู้ทางเทคนิค)
 - [`SHEETS_INDEX.md`](SHEETS_INDEX.md) = ประตูแรกของข้อมูล Google Sheets และ Floor Plan
 
 ### ชั้นที่ 2 — ดัชนีย่อยในคลังความรู้
 - [`KNOWLEDGE/target-r/00_TARGET_R_INDEX.md`](KNOWLEDGE/target-r/00_TARGET_R_INDEX.md) = ดัชนีหมวด Target-R Data Model, Neon Sync, Troubleshooting และ API
-- [`KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md`](KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md) = ดัชนีหมวด Android TV Box และคู่มือ Sharp Smart TV
+- [`KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md`](KNOWLEDGE/android-box/00_ANDROID_BOX_INDEX.md) = ดัชนีหมวด Android TV Box และคู่มือ Sharp Smart TV (7 ไฟล์)
 - [`KNOWLEDGE/hikvision/00_HIKVISION_INDEX.md`](KNOWLEDGE/hikvision/00_HIKVISION_INDEX.md) = ดัชนีหมวดจอ HIKVISION, AnyDesk/ADB, MPV และ USB Camera
 
 ---
