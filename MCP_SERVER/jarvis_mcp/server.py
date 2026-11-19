@@ -31,6 +31,10 @@ from jarvis_mcp.playbox_adb import (
     PlayboxAction,
     playbox_adb as run_playbox_adb,
 )
+from jarvis_mcp.router_control import (
+    RouterAction,
+    router_control as run_router_control,
+)
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 load_dotenv()
@@ -538,6 +542,42 @@ async def playbox_adb_tool(
         filter_text=filter_text,
         lines=lines,
         confirm=confirm,
+    )
+
+
+@mcp.tool(
+    name="router_control",
+    description=(
+        "Audit and inspect office / branch router and connected LAN devices. "
+        "Supports 'scan_devices' (fast local subnet Ping/ARP sweep, requires no router password), "
+        "'get_connected_clients' (deep router-side DHCP & Wireless table audit separating Wi-Fi/LAN, Wi-Fi Signal Quality %, and hostnames), "
+        "and 'get_router_status' (deep cellular 4G LTE metrics, RSRP/SINR, band, provider, LTE WAN IP, and CGNAT detection)."
+    ),
+)
+async def router_control_tool(
+    action: Annotated[
+        RouterAction,
+        Field(description="Action to execute: 'scan_devices' (no password needed), 'get_connected_clients', or 'get_router_status'"),
+    ] = "scan_devices",
+    router_ip: Annotated[
+        str,
+        Field(description="Router IP address (default '192.168.0.1')"),
+    ] = "192.168.0.1",
+    username: Annotated[
+        str,
+        Field(description="Router admin username (default 'admin')"),
+    ] = "admin",
+    password: Annotated[
+        str,
+        Field(description="Router admin password (default from ROUTER_PASSWORD in .env or 'BC202$1$9@')"),
+    ] = "BC202$1$9@",
+) -> dict[str, Any]:
+    """Inspect network devices, connected router clients, or router 4G LTE and CGNAT status."""
+    return run_router_control(
+        action=action,
+        router_ip=router_ip,
+        username=username,
+        password=password,
     )
 
 

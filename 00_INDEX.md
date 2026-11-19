@@ -38,13 +38,13 @@ related:
  [ ชั้นที่ 1: เสาหลัก ]
  SKILLS/index.md    MCP_SERVER/      KNOWLEDGE/       SHEETS_INDEX.md
  (วิธีคิด/ขั้นตอน)    index.md         index.md         (โครงสร้าง Google
-                    (11 Tools)       (คลังเทคนิค)       Sheets ที่เชื่อม)
+                    (12 Tools)       (คลังเทคนิค)       Sheets ที่เชื่อม)
        │                  │                │                  │
        ▼                  ▼                ▼                  ▼
  [ ชั้นที่ 2: ดัชนีย่อยและคู่มือเฉพาะทาง ]
  SKILLS/*.md        MCP_SERVER/      00_TARGET_R_     Jarvis_TargetR_Master
- (7 Skills)         TOOLS/*.md       INDEX.md         Tops Monitor
-                    (10 Tool Docs)   00_ANDROID_BOX_  (Schema & Keys)
+ (8 Skills)         TOOLS/*.md       INDEX.md         Tops Monitor
+                    (11 Tool Docs)   00_ANDROID_BOX_  (Schema & Keys)
                                      INDEX.md
                                      00_HIKVISION_
                                      INDEX.md
@@ -75,6 +75,7 @@ related:
 | 11 | ถาม **ชื่อสาขาภาษาไทย/คำย่อ หรือตำแหน่งจุดติดตั้งจอและเราเตอร์บนผังร้าน (Floor Plan)** | [`SHEETS_INDEX.md`](SHEETS_INDEX.md) | [`SHEETS_INDEX.md`](SHEETS_INDEX.md) | Google Sheets `Jarvis_TargetR_Master` (`Location`, `Projects`, `Labels`) และ `Tops Monitor` |
 | 12 | สั่ง **ส่งอีเมลรายงานหรือ Alerts** | [`MCP_SERVER/index.md`](MCP_SERVER/index.md) | [`MCP_SERVER/TOOLS/send_email.md`](MCP_SERVER/TOOLS/send_email.md) | `send_email` (Gmail SMTP) |
 | 13 | สั่ง **ADB เข้ากล่อง Playbox / Android Box** ในวงแลนเพื่อเช็คค่า เปลี่ยนค่า ดำเนินการ หรือถาม **วิธีเปิด Debug Mode** | [`SKILLS/index.md`](SKILLS/index.md)<br/>[`KNOWLEDGE/index.md`](KNOWLEDGE/index.md) | [`SKILLS/playbox_adb.md`](SKILLS/playbox_adb.md) + [`MCP_SERVER/TOOLS/playbox_adb.md`](MCP_SERVER/TOOLS/playbox_adb.md) + [`KNOWLEDGE/android-box/Playbox_ADB_Debug_Setup_Guide.md`](KNOWLEDGE/android-box/Playbox_ADB_Debug_Setup_Guide.md) | `playbox_adb` (ADB over LAN/Wi-Fi TCP/IP) |
+| 14 | ถามหรือสั่ง **สแกนอุปกรณ์ในวงแลน, ดึงรายชื่ออุปกรณ์ที่ต่อเราเตอร์ (LAN/Wi-Fi), หรือตรวจเช็คสถานะเราเตอร์ 4G LTE (ชิป, ซิม, สัญญาณ, CGNAT)** | [`SKILLS/index.md`](SKILLS/index.md) | [`SKILLS/router_control.md`](SKILLS/router_control.md) + [`MCP_SERVER/TOOLS/router_control.md`](MCP_SERVER/TOOLS/router_control.md) | `router_control` (LAN Sweep / D-Link Web API) |
 
 ---
 

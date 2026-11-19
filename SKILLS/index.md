@@ -12,6 +12,7 @@ related:
   - "[[team_knowledge]]"
   - "[[tv_control]]"
   - "[[playbox_adb]]"
+  - "[[router_control]]"
 ---
 
 # Skills Index (เสาหลักชั้นที่ 1 — ขั้นตอนการทำงาน)
@@ -31,6 +32,7 @@ Skill คือคำแนะนำเฉพาะงานที่ช่ว�
 | คลังความรู้ส่วนกลางของทีม | จดบันทึกหรือค้นหาวิธีแก้ปัญหาหน้างาน/SOP ร่วมกันทั้งทีมแบบ Real-time โดยไม่ต้องรอ `git push` | [`team_knowledge.md`](team_knowledge.md) |
 | ควบคุมจอ Sharp TV ในห้องทำงาน | สั่งเปิดเว็บแดชบอร์ด, เปิด/รีสตาร์ท DS Loader, สลับ HDMI บนจอ Sharp ผ่าน Tailscale + ADB | [`tv_control.md`](tv_control.md) |
 | เชื่อมต่อและจัดการกล่อง Playbox ผ่าน ADB | สั่ง ADB เข้ากล่อง Playbox ในวงแลนด้วย IP เพื่อเช็คค่า เปลี่ยนค่า ดำเนินการ หรือดูคู่มือเปิด Debug Mode | [`playbox_adb.md`](playbox_adb.md) |
+| ตรวจสอบอุปกรณ์ในวงแลนและเราเตอร์ 4G LTE | สแกนอุปกรณ์ในวงแลน (ARP/Ping sweep), ดึงรายชื่อ Client จากเราเตอร์ D-Link DWR-M930 (แยก LAN/Wi-Fi) และเช็คสถานะเราเตอร์ 4G LTE (ชิป, ซิม, ความแรงสัญญาณ, CGNAT) | [`router_control.md`](router_control.md) |
 
 ## แนวทางเพิ่ม Skill
 
